@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from playevilinnerbeta.github.io/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 25 Jul 2026 21:26:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inner Evil</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="public/87f327c3-296b-48ef-96db-6a4371da4688.png">
+
+    <!-- Open Graph / Discord / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="index.html">
+    <meta property="og:site_name" content="Inner Evil">
+    <meta property="og:title" content="Inner Evil">
+    <meta property="og:description" content="Survive the darkness. Uncover the truth. A psychological horror experience.">
+    <meta property="og:image" content="public/87f327c3-296b-48ef-96db-6a4371da4688.png">
+    <meta property="og:image:secure_url" content="public/87f327c3-296b-48ef-96db-6a4371da4688.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="720">
+
+    <!-- Discord embed accent color -->
+    <meta name="theme-color" content="#8b0000">
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Inner Evil">
+    <meta name="twitter:description" content="Survive the darkness. Uncover the truth. A psychological horror experience.">
+    <meta name="twitter:image" content="public/87f327c3-296b-48ef-96db-6a4371da4688.png">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;family=VT323&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../cdn.jsdelivr.net/npm/bootstrap-icons%401.13.1/font/bootstrap-icons.min.css">
+    <style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+    font-family: 'Press Start 2P', monospace;
+    background: #000;
+    color: #d4c8b0;
+    overflow-x: hidden;
+    image-rendering: pixelated;
+    cursor: default;
+}
+body::after {
+    content:'';
+    position:fixed; inset:0;
+    pointer-events:none; z-index:9000;
+    background: repeating-linear-gradient(
+        0deg, transparent 0px, transparent 3px,
+        rgba(0,0,0,.13) 3px, rgba(0,0,0,.13) 4px
+    );
+}
+.bi { font-style: normal; display: inline-block; line-height: 1; }
+.ficon .bi { font-size: 2rem; color: #cc0000; }
+.file-icon .bi { font-size: 1.6rem; color: #8b0000; }
+::-webkit-scrollbar { width:8px; }
+::-webkit-scrollbar-track { background:#000; }
+::-webkit-scrollbar-thumb { background:#6b0000; }
+
+#boot {
+    position:fixed; inset:0; z-index:8000;
+    background:#000;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    gap:24px;
+    overflow:hidden;
+}
+.boot-bg {
+    position:absolute; inset:0;
+    background:
+        linear-gradient(to top, #000 5%, transparent 40%),
+        linear-gradient(to bottom, #000 5%, transparent 40%),
+        linear-gradient(to right, #000 5%, transparent 40%),
+        linear-gradient(to left, #000 5%, transparent 40%),
+        url('public/ChatGPT_Image_Feb_27_2026_09_38_14_AM.png');
+    background-size: cover;
+    background-position: center;
+    z-index:-1;
+    filter: brightness(0.4) contrast(1.1);
+}
+.boot-logo { margin-bottom: 10px; animation: flicker 4s steps(1) infinite 1s; position: relative; z-index: 1; }
+.boot-sub  { font-size:1.1rem; letter-spacing:6px; color:#555; }
+.boot-bar-wrap { width:260px; border:3px solid #333; padding:3px; }
+.boot-bar { height:14px; background:#6b0000; width:0; animation:load-bar 2.2s steps(20) 0.4s forwards; }
+@keyframes load-bar { to { width:100%; } }
+.boot-text { font-size:1.2rem; color:#333; letter-spacing:3px; animation:blink .8s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:0;} 50%{opacity:1;} }
+@keyframes flicker { 0%,89%,91%,93%,100%{opacity:1;} 90%,92%{opacity:.25;} }
+
+.hero {
+    position:relative; min-height:100vh;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    overflow:hidden;
+    background: #000;
+}
+.hero-bg {
+    position:absolute; inset:0;
+    background:
+        linear-gradient(to top, #000 5%, transparent 40%),
+        linear-gradient(to bottom, #000 5%, transparent 40%),
+        linear-gradient(to right, #000 5%, transparent 40%),
+        linear-gradient(to left, #000 5%, transparent 40%),
+        url('public/ChatGPT_Image_Feb_27_2026_09_38_14_AM.png');
+    background-size: cover;
+    background-position: center;
+    z-index:0;
+    filter: brightness(0.5) contrast(1.1);
+}
+.hero-noise {
+    position:absolute; inset:0; z-index:1; opacity:.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='1' x='0' y='0' fill='%23fff'/%3E%3Crect width='1' height='1' x='2' y='2' fill='%23fff'/%3E%3C/svg%3E");
+    background-size:4px 4px;
+    animation: noise-shift 0.15s steps(1) infinite;
+}
+@keyframes noise-shift {
+    0%{background-position:0 0;} 25%{background-position:2px 1px;}
+    50%{background-position:1px 3px;} 75%{background-position:3px 0;}
+}
+.drips { position:absolute; top:0; left:0; right:0; height:160px; display:flex; z-index:2; pointer-events:none; }
+.drip { flex:1; position:relative; }
+.drip::after {
+    content:'';
+    position:absolute; top:0; left:50%;
+    transform:translateX(-50%);
+    width:4px;
+    background:linear-gradient(180deg,#8b0000 0%,#cc0000 60%,rgba(150,0,0,0) 100%);
+    border-radius:0 0 4px 4px;
+    animation:drip-anim var(--dur,3s) ease-in-out infinite var(--del,0s);
+}
+@keyframes drip-anim { 0%,100%{height:20px; opacity:.5;} 50%{height:var(--h,80px); opacity:1;} }
+.hero-content {
+    position:relative; z-index:5;
+    text-align:center; padding:20px;
+    display:flex; flex-direction:column;
+    align-items:center; gap:0;
+}
+.hero-emblem { margin-bottom:20px; animation: emblem-in .6s steps(8) .3s both; }
+@keyframes emblem-in { from{transform:scale(2) rotate(180deg); opacity:0;} to{transform:scale(1) rotate(0deg); opacity:1;} }
+.hero-emblem img {
+    width:90px; image-rendering:pixelated;
+    filter: drop-shadow(0 0 12px #cc0000) drop-shadow(0 0 32px rgba(200,0,0,.45)) drop-shadow(3px 3px 0 #000);
+    animation: emblem-pulse 3s ease-in-out infinite 1s;
+}
+@keyframes emblem-pulse {
+    0%,100%{filter:drop-shadow(0 0 12px #cc0000) drop-shadow(3px 3px 0 #000);}
+    50%{filter:drop-shadow(0 0 28px #ff2020) drop-shadow(0 0 60px rgba(200,0,0,.5)) drop-shadow(3px 3px 0 #000);}
+}
+.hero-title {
+    font-size:clamp(2.2rem,9vw,5.5rem);
+    letter-spacing:8px; line-height:1;
+    margin-bottom:18px;
+    animation:title-in .5s steps(4) 1s both;
+}
+@keyframes title-in {
+    0%{opacity:0; color:#fff;} 30%{opacity:1; color:#ff0000; text-shadow:0 0 40px #f00;}
+    60%{color:#fff;} 100%{opacity:1; color:#c8c0a8; text-shadow:4px 4px 0 #8b0000, 7px 7px 0 #000;}
+}
+.hero-title span { color:#cc0000; text-shadow:4px 4px 0 #600, 7px 7px 0 #000; }
+.hero-tagline {
+    font-family:'VT323', monospace;
+    font-size:clamp(1.8rem,4vw,2.6rem);
+    color:#6a5050; letter-spacing:5px;
+    margin-bottom:48px;
+    animation:fadein 0.8s ease 1.6s both;
+}
+@keyframes fadein{ from{opacity:0;} to{opacity:1;} }
+
+/* Download box in hero */
+.hero-download-box {
+    border:3px solid #6b0000; padding:22px 36px;
+    max-width:580px; margin-bottom:48px;
+    position:relative; background:rgba(0,0,0,.5);
+    animation:fadein 0.8s ease 1.9s both;
+    text-align:center;
+}
+.hero-download-box::before {
+    content:'FREE DOWNLOAD';
+    position:absolute; top:-10px; left:50%; transform:translateX(-50%);
+    background:#6b0000; color:#f0e0c0;
+    font-size:1rem; letter-spacing:4px; padding:3px 12px;
+}
+.hero-download-box p {
+    font-family:'VT323',monospace; font-size:2.2rem; color:#886060;
+    line-height:1.7; letter-spacing:1px; margin-bottom:18px;
+}
+.hero-cta {
+    display:inline-block; font-family:'Press Start 2P',monospace;
+    font-size:1.2rem; letter-spacing:4px; color:#000; background:#cc0000;
+    padding:18px 52px; text-decoration:none; border:none; cursor:pointer;
+    position:relative;
+    box-shadow: 4px 4px 0 #600, -2px -2px 0 #ff4444, 0 0 0 3px #000;
+    transition:transform .1s steps(1), box-shadow .1s steps(1);
+    animation:fadein 0.8s ease 2.2s both;
+}
+.hero-cta:hover { background:#ff2020; color:#fff; transform:translate(-2px,-2px); box-shadow:6px 6px 0 #600, -2px -2px 0 #ff6666, 0 0 0 3px #000; }
+.hero-cta:active { transform:translate(2px,2px); box-shadow:2px 2px 0 #600; }
+.hero-cta-ghost {
+    display:inline-block; font-family:'Press Start 2P',monospace;
+    font-size:1.1rem; letter-spacing:3px; color:#555; border:2px solid #2a1a1a;
+    padding:14px 36px; text-decoration:none;
+    transition:color .1s steps(1), border-color .1s steps(1);
+    animation:fadein 0.8s ease 2.3s both;
+}
+.hero-cta-ghost:hover { color:#c8c0a8; border-color:#6b0000; }
+.hero-btns { display:flex; gap:20px; flex-wrap:wrap; justify-content:center; }
+.scroll-ind {
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    z-index:5; text-align:center;
+    font-size:1rem; color:#3a2020; letter-spacing:3px;
+    animation:fadein 0.8s ease 3s both, scroll-bounce 2s ease-in-out infinite 3.5s;
+}
+@keyframes scroll-bounce { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(6px);} }
+.scroll-ind::after { content:' ▼ '; display:block; color:#6b0000; margin-top:4px; }
+
+.wrap { max-width:1200px; margin:0 auto; padding:90px 36px; }
+.sec-eyebrow { font-size:1rem; letter-spacing:6px; color:#6b0000; display:block; margin-bottom:12px; }
+.sec-eyebrow::before { content:'▸ '; color:#cc0000; }
+.sec-heading {
+    font-size:clamp(1.8rem,3.8vw,3rem); color:#c8c0a8;
+    text-shadow:3px 3px 0 #6b0000, 5px 5px 0 #000;
+    line-height:1.45; margin-bottom:52px; letter-spacing:3px;
+}
+.sec-heading b { color:#cc0000; font-weight:normal; }
+
+.story-sec {
+    background: #050003;
+    border-top:5px solid #6b0000;
+    border-bottom:5px solid #6b0000;
+    position:relative; overflow:hidden;
+}
+.story-sec::before {
+    content:''; position:absolute; inset:0;
+    background:
+        repeating-linear-gradient(90deg, rgba(100,0,0,.04) 0, rgba(100,0,0,.04) 1px, transparent 1px, transparent 48px),
+        repeating-linear-gradient(0deg, rgba(100,0,0,.04) 0, rgba(100,0,0,.04) 1px, transparent 1px, transparent 48px);
+    pointer-events:none;
+}
+.story-grid { display:grid; grid-template-columns:1.15fr 1fr; gap:72px; align-items:start; }
+.story-copy p { font-family:'VT323',monospace; font-size:2.4rem; line-height:1.85; color:#806060; margin-bottom:20px; }
+.story-copy p strong { color:#cc0000; }
+.story-copy p em { color:#c8a870; font-style:normal; }
+.file-panel { border:3px solid #2a0a0a; background:#030001; overflow:hidden; }
+.file-panel-head { background:#6b0000; padding:10px 18px; font-size:1.2rem; letter-spacing:4px; color:#f0d8c0; display:flex; align-items:center; gap:10px; }
+.file-panel-head::before { content:'📁'; font-size:1rem; }
+.file-rows { display:flex; flex-direction:column; gap:0; }
+.file-row { display:flex; align-items:center; border-bottom:1px solid #1a0505; padding:18px 18px; gap:16px; transition:background .1s steps(1); cursor:default; }
+.file-row:hover { background:rgba(107,0,0,.2); }
+.file-row:last-child { border-bottom:none; }
+.file-icon { font-size:1.4rem; flex-shrink:0; }
+.file-info { flex:1; }
+.file-name { font-size:1rem; color:#c8c0a8; letter-spacing:2px; display:block; margin-bottom:5px; }
+.file-val  { font-family:'VT323',monospace; font-size:2.2rem; color:#cc0000; }
+
+.pxdiv {
+    height:12px;
+    background: repeating-linear-gradient(90deg, #6b0000 0, #6b0000 12px, #400000 12px, #400000 24px, #200000 24px, #200000 36px, #000 36px, #000 48px);
+    background-size:200% 100%;
+    animation:divscroll 4s linear infinite;
+}
+@keyframes divscroll { from{background-position:0 0;} to{background-position:200% 0;} }
+
+.gallery-sec { background:#000; position:relative; overflow:hidden; }
+.gallery-sec::before {
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(ellipse at 50% 0%, rgba(120,0,0,.12) 0%, transparent 60%);
+    pointer-events:none; z-index:1;
+}
+.gallery-grid { display:grid; grid-template-columns: 2fr 1fr; grid-template-rows: auto auto; gap:6px; position:relative; z-index:2; }
+.gitem { position:relative; overflow:hidden; border:3px solid #150508; background:#000; cursor:pointer; }
+.gitem:first-child { grid-row:1/3; }
+.gitem img { width:100%; height:100%; object-fit:cover; display:block; image-rendering:pixelated; filter:saturate(1.1) contrast(1.08) brightness(.95); transition:filter .2s steps(3), transform .2s steps(3); }
+.gitem:hover img { filter:saturate(1.4) contrast(1.2) brightness(1.05); transform:scale(1.04); }
+.gitem:hover { border-color:#8b0000; }
+.gitem::after { content:''; position:absolute; inset:6px; border:2px solid rgba(139,0,0,0); transition:border-color .1s steps(2); pointer-events:none; z-index:3; }
+.gitem:hover::after { border-color:rgba(139,0,0,.55); }
+.gcaption { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,.9); border-top:2px solid #6b0000; padding:10px 16px; font-size:1rem; letter-spacing:3px; color:#c8a870; transform:translateY(100%); transition:transform .15s steps(4); z-index:4; }
+.gitem:hover .gcaption { transform:translateY(0); }
+.gstage { position:absolute; top:0; right:0; background:#6b0000; padding:5px 10px; font-size:1rem; letter-spacing:2px; color:#f0d0b0; z-index:4; }
+
+/* ── GAMEPLAY VIDEO SECTION ── */
+.video-sec {
+    background: #030001;
+    border-top:5px solid #6b0000;
+    border-bottom:5px solid #6b0000;
+    position:relative; overflow:hidden;
+}
+.video-sec::before {
+    content:''; position:absolute; inset:0;
+    background:
+        repeating-linear-gradient(90deg, rgba(100,0,0,.05) 0, rgba(100,0,0,.05) 1px, transparent 1px, transparent 60px),
+        repeating-linear-gradient(0deg, rgba(100,0,0,.05) 0, rgba(100,0,0,.05) 1px, transparent 1px, transparent 60px);
+    pointer-events:none;
+}
+.video-wrap {
+    position:relative; z-index:2;
+    max-width:900px; margin:0 auto;
+}
+.video-container {
+    position:relative;
+    padding-bottom:56.25%;
+    height:0; overflow:hidden;
+    border:4px solid #6b0000;
+    box-shadow: 0 0 0 2px #000, 0 0 40px rgba(180,0,0,.35), 8px 8px 0 #300;
+}
+.video-container iframe {
+    position:absolute; top:0; left:0;
+    width:100%; height:100%;
+    border:none;
+}
+/* VHS overlay on video */
+.video-container::after {
+    content:'';
+    position:absolute; inset:0;
+    background: repeating-linear-gradient(
+        0deg, transparent 0px, transparent 3px,
+        rgba(0,0,0,.08) 3px, rgba(0,0,0,.08) 4px
+    );
+    pointer-events:none; z-index:5;
+}
+.video-label {
+    display:flex; align-items:center; gap:12px;
+    margin-bottom:28px;
+    font-size:1rem; letter-spacing:4px; color:#6b0000;
+}
+.video-label::before { content:'● REC'; color:#cc0000; animation:blink .8s step-end infinite; }
+.video-label::after  { content:''; flex:1; height:2px; background:linear-gradient(90deg,#6b0000,transparent); }
+
+.feat-sec { background:#050003; border-top:5px solid #2a0a0a; position:relative; overflow:hidden; }
+.feat-sec::before {
+    content:''; position:absolute; inset:0;
+    background:
+        repeating-linear-gradient(90deg, rgba(0,80,80,.03) 0, rgba(0,80,80,.03) 1px, transparent 1px, transparent 32px),
+        repeating-linear-gradient(0deg, rgba(0,80,80,.03) 0, rgba(0,80,80,.03) 1px, transparent 1px, transparent 32px);
+    pointer-events:none;
+}
+.feat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; }
+.fcard { background:#030001; border:3px solid #150508; padding:30px 24px; position:relative; overflow:hidden; transition:border-color .1s steps(1), transform .1s steps(2); }
+.fcard::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:#6b0000; transform:scaleX(0); transform-origin:left; transition:transform .25s steps(5); }
+.fcard:hover { border-color:#8b0000; transform:translateY(-4px); }
+.fcard:hover::before { transform:scaleX(1); }
+.fcard:hover .ficon { animation:icon-pulse .4s steps(3) infinite; }
+@keyframes icon-pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.15);} }
+.ficon { font-size:1.75rem; display:block; margin-bottom:14px; }
+.ftitle { font-size:1.2rem; letter-spacing:3px; color:#cc0000; margin-bottom:10px; text-shadow:2px 2px 0 #600; }
+.fdesc { font-family:'VT323',monospace; font-size:2.4rem; line-height:1.65; color:#7a5555; }
+
+.cta-sec { position:relative; overflow:hidden; text-align:center; background:#000; }
+.cta-bg {
+    position:absolute; inset:0;
+    background:
+        repeating-linear-gradient(90deg, rgba(100,0,0,.09) 0, rgba(100,0,0,.09) 2px, transparent 2px, transparent 32px),
+        repeating-linear-gradient(0deg, rgba(80,0,0,.07) 0, rgba(80,0,0,.07) 2px, transparent 2px, transparent 32px),
+        linear-gradient(180deg, #100003 0%, #050001 100%);
+}
+.cta-glow { position:absolute; inset:0; background:radial-gradient(ellipse 70% 80% at 50% 50%, rgba(150,0,0,.18) 0%, transparent 70%); animation:glow 4s ease-in-out infinite; }
+@keyframes glow { 0%,100%{opacity:.6;} 50%{opacity:1;} }
+.cta-inner { position:relative; z-index:2; }
+.cta-badge { display:inline-block; border:2px solid #6b0000; padding:6px 20px; margin-bottom:28px; font-size:1rem; letter-spacing:6px; color:#6b0000; }
+.cta-title { font-size:clamp(2.4rem,7vw,5.5rem); color:#c8c0a8; text-shadow:5px 5px 0 #6b0000, 9px 9px 0 #000; line-height:1.2; margin-bottom:22px; letter-spacing:4px; animation:flicker 5s steps(1) infinite 2s; }
+.cta-copy { font-family:'VT323',monospace; font-size:2.6rem; color:#7a5555; max-width:560px; margin:0 auto 52px; line-height:1.7; }
+.cta-btn { display:inline-block; font-family:'Press Start 2P',monospace; font-size:1.2rem; letter-spacing:3px; color:#f0d8c0; background:#6b0000; padding:18px 52px; text-decoration:none; box-shadow:4px 4px 0 #300, -2px -2px 0 #aa2222, 0 0 0 3px #000; transition:transform .1s steps(1), background .1s steps(1); }
+.cta-btn:hover { background:#aa0000; transform:translate(-2px,-2px); color:#fff; }
+.plats { display:flex; gap:16px; justify-content:center; margin-top:32px; flex-wrap:wrap; }
+.plat { font-size:1rem; padding:8px 18px; border:2px solid #1a0505; color:#805050; letter-spacing:3px; transition:border-color .1s steps(1), color .1s steps(1); }
+.plat:hover { border-color:#6b0000; color:#805050; }
+
+footer { background:#000; border-top:5px solid #150508; padding:52px 36px; text-align:center; }
+.foot-logo { font-size:2.5rem; letter-spacing:8px; color:#1a0808; text-shadow:none; margin-bottom:22px; }
+.foot-sep { max-width:320px; height:3px; margin:0 auto 22px; background:repeating-linear-gradient(90deg, #6b0000 0,#6b0000 10px,#000 10px,#000 16px); }
+footer p { font-size:1rem; color:#4a2020; line-height:3; letter-spacing:1px; }
+
+@media(max-width:960px){
+    .story-grid { grid-template-columns:1fr; gap:48px; }
+    .gallery-grid { grid-template-columns:1fr; grid-template-rows:auto; }
+    .gitem:first-child { grid-row:auto; }
+    .feat-grid { grid-template-columns:1fr 1fr; }
+    .wrap { padding:60px 22px; }
+}
+@media(max-width:600px){
+    .feat-grid { grid-template-columns:1fr; }
+    .hero-title { font-size:2rem; letter-spacing:4px; }
+    .hero-btns { flex-direction:column; }
+}
+    </style>
+</head>
+<body>
+
+<!-- BOOT SCREEN -->
+<div id="boot">
+    <div class="boot-bg"></div>
+    <div class="boot-logo" style="display:none;">
+        <img src="public/ChatGPT_Image_Feb_27_2026_09_38_14_AM.png" alt="Inner Evil" style="width: 320px; max-width: 80vw; filter: drop-shadow(0 0 15px #f00);">
+    </div>
+    <div class="boot-sub" style="position:relative; z-index:1;">INNER EVIL ENTERTAINMENT</div>
+    <div class="boot-bar-wrap" style="position:relative; z-index:1;"><div class="boot-bar"></div></div>
+    <div class="boot-text" style="position:relative; z-index:1;">LOADING...</div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-noise"></div>
+    <div class="drips">
+        <div class="drip" style="--dur:2.8s;--del:0s;  --h:70px;"></div>
+        <div class="drip" style="--dur:3.5s;--del:.4s; --h:110px;"></div>
+        <div class="drip" style="--dur:2.2s;--del:.9s; --h:55px;"></div>
+        <div class="drip" style="--dur:4.1s;--del:.2s; --h:130px;"></div>
+        <div class="drip" style="--dur:3.0s;--del:1.3s;--h:80px;"></div>
+        <div class="drip" style="--dur:2.6s;--del:.6s; --h:95px;"></div>
+        <div class="drip" style="--dur:3.8s;--del:1.7s;--h:60px;"></div>
+        <div class="drip" style="--dur:2.4s;--del:.1s; --h:100px;"></div>
+        <div class="drip" style="--dur:3.3s;--del:1.0s;--h:75px;"></div>
+        <div class="drip" style="--dur:4.5s;--del:.5s; --h:120px;"></div>
+        <div class="drip" style="--dur:2.9s;--del:1.5s;--h:65px;"></div>
+        <div class="drip" style="--dur:3.6s;--del:.3s; --h:90px;"></div>
+        <div class="drip" style="--dur:2.1s;--del:1.2s;--h:50px;"></div>
+        <div class="drip" style="--dur:4.0s;--del:.8s; --h:115px;"></div>
+        <div class="drip" style="--dur:3.2s;--del:1.9s;--h:85px;"></div>
+        <div class="drip" style="--dur:2.7s;--del:.7s; --h:105px;"></div>
+    </div>
+    <div class="hero-content">
+        <div class="hero-emblem" style="display:none;">
+            <img src="public/ChatGPT_Image_Feb_27_2026_09_38_14_AM.png" alt="Inner Evil" style="width: 480px; max-width: 90vw; filter: drop-shadow(0 0 25px #f00);">
+        </div>
+        <h1 class="hero-title" style="display:none;">INNER <span>EVIL</span></h1>
+        <p class="hero-tagline">SURVIVE THE DARKNESS · UNCOVER THE TRUTH</p>
+        <div class="hero-btns" style="margin-top:320px;">
+            <a href="https://www.dropbox.com/scl/fi/n9vl0o3duxjcknbvpbaba/InnerEvil.zip?rlkey=58wmhc8edk4qtt7cv9sfbgev4&amp;st=qr2oy8tv&amp;dl=1" class="hero-cta">▶ DOWNLOAD NOW</a>
+            <a href="#gallery"  class="hero-cta-ghost">VIEW SCREENSHOTS</a>
+        </div>
+    </div>
+    <div class="scroll-ind">SCROLL DOWN</div>
+</section>
+
+<!-- STORY -->
+<section class="story-sec">
+    <div class="wrap">
+        <div class="story-grid">
+            <div class="story-copy">
+                <span class="sec-eyebrow">CASE FILE · 001</span>
+                <h2 class="sec-heading">DESCEND INTO<br><b>DARKNESS</b></h2>
+                <p><strong>Inner Evil</strong> is a pixel-art psychological horror adventure drawing direct inspiration from the golden age of survival horror.</p>
+                <p>Fight through <em>haunted buildings</em>, cursed forests, and blood-soaked underground chambers. Every room hides a new threat. Every enemy has a story.</p>
+                <p>Armed with limited ammo and your wits alone — solve dark puzzles, manage scarce resources, and piece together the <em>horrifying truth</em> behind the outbreak.</p>
+                <p>Multiple endings. Unforgiving difficulty. <strong>No second chances.</strong></p>
+            </div>
+            <div class="file-panel">
+                <div class="file-panel-head">ITEM FILE — CLASSIFIED</div>
+                <div class="file-rows">
+                    <div class="file-row">
+                        <span class="file-icon"><i class="bi bi-exclamation-triangle-fill"></i></span>
+                        <div class="file-info">
+                            <span class="file-name">AGE RATING</span>
+                            <span class="file-val">13+</span>
+                        </div>
+                    </div>
+                    <div class="file-row">
+                        <span class="file-icon"><i class="bi bi-windows"></i></span>
+                        <div class="file-info">
+                            <span class="file-name">PLATFORMS</span>
+                            <span class="file-val">WINDOWS</span>
+                        </div>
+                    </div>
+                    <div class="file-row">
+                        <span class="file-icon"><i class="bi bi-hourglass-split"></i></span>
+                        <div class="file-info">
+                            <span class="file-name">PLAYTIME</span>
+                            <span class="file-val">7+ HOURS</span>
+                        </div>
+                    </div>
+                    <div class="file-row">
+                        <span class="file-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#8b0000" viewBox="0 0 16 16"><path d="M8 1a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3v.5A1.5 1.5 0 0 0 4.5 13h.386a1 1 0 0 1 .707.293l.707.707h3.4l.707-.707A1 1 0 0 1 11.114 13h.386A1.5 1.5 0 0 0 13 11.5V11h-1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h1V6a5 5 0 0 0-5-5zm-2 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-.5 3.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm-2 0a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/></svg></span>
+                        <div class="file-info">
+                            <span class="file-name">DIFFICULTY</span>
+                            <span class="file-val">BRUTAL</span>
+                        </div>
+                    </div>
+                    <div class="file-row">
+                        <span class="file-icon"><i class="bi bi-arrow-repeat"></i></span>
+                        <div class="file-info">
+                            <span class="file-name">ENDINGS</span>
+                            <span class="file-val">MULTIPLE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="pxdiv"></div>
+
+<!-- GALLERY -->
+<section class="gallery-sec" id="gallery">
+    <div class="wrap">
+        <span class="sec-eyebrow">SURVEILLANCE FOOTAGE</span>
+        <h2 class="sec-heading">GAMEPLAY<br><b>SCREENSHOTS</b></h2>
+        <div class="gallery-grid">
+            <div class="gitem">
+                <div class="gstage">STAGE B2</div>
+                <img src="public/screen2.png" alt="Boss Encounter">
+                <div class="gcaption">▸ LEON BOSS ENCOUNTER — UNDERGROUND</div>
+            </div>
+            <div class="gitem">
+                <div class="gstage">STAGE 1</div>
+                <img src="public/screen1.png" alt="Indoor Level">
+                <div class="gcaption">▸ HAUNTED BUILDING — INTERIOR</div>
+            </div>
+            <div class="gitem">
+                <div class="gstage">STAGE 2</div>
+                <img src="public/hero.png" alt="Outdoor Combat">
+                <div class="gcaption">▸ CURSED FOREST — OUTDOOR COMBAT</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="pxdiv"></div>
+
+<!-- GAMEPLAY VIDEO -->
+<section class="video-sec" id="gameplay">
+    <div class="wrap">
+        <span class="sec-eyebrow">TRANSMISSION · LIVE</span>
+        <h2 class="sec-heading">GAMEPLAY<br><b>FOOTAGE</b></h2>
+        <div class="video-wrap">
+            <div class="video-label">GAMEPLAY RECORDING — CLASSIFIED FOOTAGE</div>
+            <div class="video-container">
+                <iframe
+                    src="https://www.youtube.com/embed/69-XiNqIch4?rel=0&amp;modestbranding=1&amp;color=red"
+                    title="Inner Evil — Gameplay"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="pxdiv"></div>
+
+<!-- FEATURES -->
+<section class="feat-sec" id="features">
+    <div class="wrap">
+        <span class="sec-eyebrow">GAME MECHANICS</span>
+        <h2 class="sec-heading">WHAT AWAITS<br><b>YOU</b></h2>
+        <div class="feat-grid">
+            <div class="fcard">
+                <span class="ficon"><i class="bi bi-file-text-fill"></i></span>
+                <div class="ftitle">STORY-DRIVEN</div>
+                <p class="fdesc">A twisting narrative shaped by every choice. Multiple endings — only one reveals the full truth.</p>
+            </div>
+            <div class="fcard">
+                <span class="ficon"><i class="bi bi-moon-stars-fill"></i></span>
+                <div class="ftitle">ATMOSPHERE</div>
+                <p class="fdesc">Pixel-perfect horror environments with chilling sound design crafted to destroy your nerves.</p>
+            </div>
+            <div class="fcard">
+                <span class="ficon"><i class="bi bi-lock-fill"></i></span>
+                <div class="ftitle">PUZZLES</div>
+                <p class="fdesc">Dark, logic-driven puzzles block every path forward. Fail and the darkness consumes you.</p>
+            </div>
+            <div class="fcard">
+                <span class="ficon"><i class="bi bi-heart-pulse-fill"></i></span>
+                <div class="ftitle">SURVIVAL</div>
+                <p class="fdesc">Scarce ammo. Limited health. Every resource counts. Think before you shoot.</p>
+            </div>
+            <div class="fcard">
+                <span class="ficon"><i class="bi bi-map-fill"></i></span>
+                <div class="ftitle">EXPLORATION</div>
+                <p class="fdesc">Hidden rooms, secret lore, and collectible case files scattered across every cursed location.</p>
+            </div>
+            <div class="fcard">
+                <span class="ficon"><i class="bi bi-music-note-beamed"></i></span>
+                <div class="ftitle">SOUNDTRACK</div>
+                <p class="fdesc">Chiptune horror score — composed to amplify dread and linger long after you stop playing.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="download">
+    <div class="cta-bg"></div>
+    <div class="cta-glow"></div>
+    <div class="wrap cta-inner">
+        <div class="cta-badge">FREE DOWNLOAD — 2026</div>
+        <h2 class="cta-title">ARE YOU READY<br>TO FACE WHAT<br>LIES WITHIN?</h2>
+        <p class="cta-copy">Enter a world of pixel-perfect psychological horror. Survive the darkness. Uncover the truth. If you dare step inside...</p>
+        <a href="https://www.dropbox.com/scl/fi/n9vl0o3duxjcknbvpbaba/InnerEvil.zip?rlkey=58wmhc8edk4qtt7cv9sfbgev4&amp;st=qr2oy8tv&amp;dl=1" class="cta-btn"><i class="bi bi-radioactive"></i> ENTER NOW</a>
+        <div class="plats">
+            <span class="plat"><i class="bi bi-windows"></i> WINDOWS</span>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="foot-logo">
+        <img src="public/ChatGPT_Image_Feb_27_2026_09_38_14_AM.png" alt="Inner Evil" style="height: 60px; opacity: 0.2; filter: grayscale(1) brightness(0.5);">
+    </div>
+    <div class="foot-sep"></div>
+    <p>© 2026 INNER EVIL — ALL RIGHTS RESERVED</p>
+    <p>A PSYCHOLOGICAL HORROR GAME EXPERIENCE</p>
+    <p>CRAFTED FOR HORROR ENTHUSIASTS & SURVIVAL HORROR FANS</p>
+    <div class="foot-sep" style="margin-top:24px;"></div>
+    <p style="color:#2a0a0a !important; margin-top:8px; font-size:.8rem;">GAME OVER IS JUST THE BEGINNING.</p>
+</footer>
+
+<script>
+setTimeout(() => {
+    const boot = document.getElementById('boot');
+    boot.style.transition = 'opacity 0.4s steps(4)';
+    boot.style.opacity = '0';
+    setTimeout(() => boot.style.display = 'none', 450);
+}, 2800);
+
+const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            e.target.style.opacity = '1';
+            e.target.style.transform = 'translateY(0)';
+        }
+    });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.fcard, .file-row, .gitem').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(14px)';
+    el.style.transition = 'opacity .5s steps(5), transform .4s steps(4)';
+    obs.observe(el);
+});
+</script>
+</body>
+
+
+<!-- Mirrored from playevilinnerbeta.github.io/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 25 Jul 2026 21:26:29 GMT -->
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
