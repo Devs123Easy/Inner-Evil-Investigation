@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Setup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #111827 50%, #0f1729 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .setup-container {
+            width: 720px;
+            height: 520px;
+            background: #1a1f2e;
+            border-radius: 12px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title-bar {
+            background: linear-gradient(90deg, #1e3a5f 0%, #2d5a87 50%, #1e3a5f 100%);
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            user-select: none;
+        }
+
+        .title-bar-text {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .title-bar-text::before {
+            content: '';
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #4fc3f7 0%, #0288d1 100%);
+            border-radius: 3px;
+            display: inline-block;
+            box-shadow: 0 0 8px rgba(79,195,247,0.4);
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .window-btn {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .window-btn:hover { transform: scale(1.15); }
+        .btn-minimize { background: #ffbd2e; }
+        .btn-maximize { background: #28c840; }
+        .btn-close { background: #ff5f57; }
+
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+        }
+
+        .side-banner {
+            width: 180px;
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 40px;
+        }
+
+        .side-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(79,195,247,0.08) 0%, transparent 60%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .game-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #4fc3f7 0%, #0288d1 50%, #01579b 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 10px 40px rgba(2,136,209,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+            margin-bottom: 20px;
+        }
+
+        .game-icon svg {
+            width: 56px;
+            height: 56px;
+            fill: white;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .game-title {
+            color: #e0f2fe;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 10px rgba(79,195,247,0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .game-version {
+            color: #7dd3fc;
+            font-size: 11px;
+            margin-top: 4px;
+            position: relative;
+            z-index: 1;
+            opacity: 0.8;
+        }
+
+        .main-panel {
+            flex: 1;
+            padding: 32px 36px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: #1a1f2e;
+        }
+
+        .step-indicator {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 24px;
+        }
+
+        .step-dot {
+            width: 28px;
+            height: 4px;
+            border-radius: 2px;
+            background: #334155;
+            transition: all 0.4s ease;
+        }
+
+        .step-dot.active {
+            background: linear-gradient(90deg, #4fc3f7, #0288d1);
+            box-shadow: 0 0 8px rgba(79,195,247,0.4);
+        }
+
+        .step-dot.completed {
+            background: #059669;
+        }
+
+        .step-title {
+            color: #f1f5f9;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .step-content {
+            flex: 1;
+            color: #cbd5e1;
+            font-size: 14px;
+            line-height: 1.7;
+            overflow-y: auto;
+        }
+
+        .welcome-text {
+            color: #94a3b8;
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        .license-box {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 16px;
+            height: 200px;
+            overflow-y: auto;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #94a3b8;
+            margin-top: 12px;
+        }
+
+        .license-box::-webkit-scrollbar { width: 6px; }
+        .license-box::-webkit-scrollbar-track { background: transparent; }
+        .license-box::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 16px;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .checkbox-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #0288d1;
+            cursor: pointer;
+        }
+
+        .path-input-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            align-items: center;
+        }
+
+        .path-input {
+            flex: 1;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            padding: 10px 14px;
+            color: #e2e8f0;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .path-input:focus {
+            border-color: #4fc3f7;
+            box-shadow: 0 0 0 3px rgba(79,195,247,0.1);
+        }
+
+        .browse-btn {
+            background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+            border: 1px solid #475569;
+            color: #e2e8f0;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .browse-btn:hover {
+            background: linear-gradient(180deg, #475569 0%, #334155 100%);
+            border-color: #64748b;
+        }
+
+        .disk-info {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 6px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .disk-bar {
+            height: 6px;
+            background: #334155;
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .disk-fill {
+            height: 100%;
+            width: 42%;
+            background: linear-gradient(90deg, #059669, #10b981);
+            border-radius: 3px;
+        }
+
+        .progress-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .progress-file {
+            font-size: 12px;
+            color: #64748b;
+            font-family: 'Consolas', monospace;
+        }
+
+        .progress-outer {
+            height: 22px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 11px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-inner {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #0288d1, #4fc3f7, #0288d1);
+            background-size: 200% 100%;
+            border-radius: 11px;
+            transition: width 0.3s ease;
+            position: relative;
+            animation: shimmer 2s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            z-index: 2;
+        }
+
+        .install-log {
+            margin-top: 16px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 12px;
+            height: 140px;
+            overflow-y: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        .install-log .log-line {
+            margin-bottom: 3px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(2px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .finish-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #059669, #10b981);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px rgba(16,185,129,0.3);
+        }
+
+        .finish-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        .finish-options {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .button-bar {
+            height: 64px;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            border-top: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 24px;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            min-width: 90px;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(180deg, #0288d1 0%, #01579b 100%);
+            color: white;
+            border-color: #0277bd;
+            box-shadow: 0 2px 8px rgba(2,136,209,0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(180deg, #039be5 0%, #0277bd 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(2,136,209,0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+            color: #e2e8f0;
+            border-color: #475569;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: linear-gradient(180deg, #475569 0%, #334155 100%);
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: stepFadeIn 0.4s ease;
+        }
+
+        @keyframes stepFadeIn {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="setup-container">
+        <div class="title-bar">
+            <div class="title-bar-text">Game Setup</div>
+            <div class="window-controls">
+                <div class="window-btn btn-minimize"></div>
+                <div class="window-btn btn-maximize"></div>
+                <div class="window-btn btn-close"></div>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="side-banner">
+                <div class="game-icon">
+                    <svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                </div>
+                <div class="game-title">INSTALLER</div>
+                <div class="game-version">v2.4.0 Build 8921</div>
+            </div>
+
+            <div class="main-panel">
+                <div class="step-indicator">
+                    <div class="step-dot active" data-step="0"></div>
+                    <div class="step-dot" data-step="1"></div>
+                    <div class="step-dot" data-step="2"></div>
+                    <div class="step-dot" data-step="3"></div>
+                    <div class="step-dot" data-step="4"></div>
+                </div>
+
+                <div id="step-0" class="step-content fade-in">
+                    <div class="step-title" data-i18n="welcomeTitle">Welcome</div>
+                    <p data-i18n="welcomeText1">Welcome to the Beta Game v2.4.0 Setup Wizard.</p>
+                    <p class="welcome-text" data-i18n="welcomeText2">This program will install Beta Game on your computer. It is recommended that you close all other applications before continuing.</p>
+                    <p class="welcome-text" style="margin-top: 16px;" data-i18n="welcomeText3">Click <strong>Next</strong> to continue, or <strong>Cancel</strong> to exit Setup.</p>
+                    <div style="margin-top: 32px; padding: 16px; background: rgba(15,23,42,0.6); border-radius: 8px; border-left: 3px solid #0288d1;">
+                        <div style="color: #e0f2fe; font-weight: 600; font-size: 12px; margin-bottom: 6px;" data-i18n="sysReqTitle">System Requirements</div>
+                        <div style="color: #94a3b8; font-size: 12px; line-height: 1.8;">
+                            OS: Windows 10/11 64-bit<br>
+                            Processor: Intel Core i5-8400 / AMD Ryzen 5 2600<br>
+                            RAM: 16 GB<br>
+                            Graphics: GTX 1060 6GB / RX 580 8GB<br>
+                            Storage: 45 GB available space
+                        </div>
+                    </div>
+                </div>
+
+                <div id="step-1" class="step-content hidden">
+                    <div class="step-title" data-i18n="licenseTitle">License Agreement</div>
+                    <p style="font-size: 13px; color: #94a3b8; margin-bottom: 8px;" data-i18n="licenseDesc">Please read the following license agreement carefully.</p>
+                    <div class="license-box">
+                        BETA GAME SOFTWARE LICENSE AGREEMENT<br><br>
+                        PLEASE READ THIS LICENSE AGREEMENT CAREFULLY BEFORE INSTALLING THIS SOFTWARE.<br><br>
+                        This Software License Agreement ("Agreement") is between Beta Games Studio ("Licensor") and the person or entity installing or using this software ("Licensee").<br><br>
+                        1. GRANT OF LICENSE<br>
+                        All rights to this software belong to Beta Games Studio. The Software is licensed to you by Licensor on a limited, non-exclusive, non-transferable basis.<br><br>
+                        2. USAGE RIGHTS<br>
+                        Licensee may use this software for personal and non-commercial purposes. Reverse engineering, decompiling, disassembling, or accessing the source code is prohibited.<br><br>
+                        3. TRADEMARKS<br>
+                        "Beta Game", "Beta Games Studio" and related logos are trademarks of Beta Games Studio.<br><br>
+                        4. DISCLAIMER OF WARRANTY<br>
+                        This software is provided "as is". Licensor does not guarantee that the software will be error-free or fit for a particular purpose.<br><br>
+                        5. LIMITATION OF LIABILITY<br>
+                        In no event shall Licensor be liable for any indirect, incidental, special, or consequential damages arising from the use of this software.<br><br>
+                        6. TERMINATION<br>
+                        If you fail to comply with the terms of this Agreement, Licensor may terminate this license without notice.<br><br>
+                        7. GOVERNING LAW<br>
+                        This Agreement shall be governed by and construed in accordance with the laws of the Republic of Turkey.<br><br>
+                        If you accept the above terms, please check "I accept the license agreement" and click "Next" to continue.
+                    </div>
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="accept-license">
+                        <label for="accept-license" data-i18n="acceptLabel">I accept the license agreement</label>
+                    </div>
+                </div>
+
+                <div id="step-2" class="step-content hidden">
+                    <div class="step-title" data-i18n="locationTitle">Installation Location</div>
+                    <p style="font-size: 13px; color: #94a3b8; margin-bottom: 12px;" data-i18n="locationDesc1">Choose the folder where Beta Game will be installed.</p>
+                    <p style="font-size: 13px; color: #cbd5e1;" data-i18n="locationDesc2">Setup requires at least <strong>45 GB</strong> of free disk space.</p>
+                    <div class="path-input-row">
+                        <input type="text" class="path-input" id="install-path" value="C:\\Program Files (x86)\\Beta Game" readonly>
+                        <button class="browse-btn" onclick="browseFolder()" data-i18n="browseBtn">Browse...</button>
+                    </div>
+                    <div class="disk-info">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <span data-i18n="availableSpace">Available space on C:</span>
+                            <span style="color: #e2e8f0;">142 GB / 512 GB</span>
+                        </div>
+                        <div class="disk-bar"><div class="disk-fill"></div></div>
+                    </div>
+                </div>
+
+                <div id="step-3" class="step-content hidden">
+                    <div class="step-title" data-i18n="installingTitle">Installing</div>
+                    <div class="progress-section">
+                        <div class="progress-file" id="current-file">Preparing...</div>
+                        <div class="progress-outer">
+                            <div class="progress-inner" id="progress-bar"></div>
+                            <div class="progress-text" id="progress-text">0%</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; color: #64748b; margin-top: 4px;">
+                            <span id="speed-text">0 MB/s</span>
+                            <span id="time-text">Remaining time: Calculating...</span>
+                        </div>
+                        <div class="install-log" id="install-log">
+                            <div class="log-line" data-i18n="logStart">[INFO] Setup is starting...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="step-4" class="step-content hidden">
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center;">
+                        <div class="finish-icon" style="background: linear-gradient(135deg, #dc2626, #ef4444); box-shadow: 0 0 30px rgba(239,68,68,0.3);">
+                            <svg viewBox="0 0 24 24" style="width:32px;height:32px;fill:white;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                        </div>
+                        <div class="step-title" style="margin-bottom: 8px;" data-i18n="errorTitle">Network Error</div>
+                        <p style="color: #94a3b8; font-size: 13px;" data-i18n="errorDesc1">Connection to the installation server was lost.</p>
+                        <p style="color: #64748b; font-size: 12px; margin-top: 6px;" data-i18n="errorDesc2">Please check your internet connection and try again.<br>Error code: 0x80072EFE</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-bar">
+            <button class="btn btn-secondary" id="btn-back" onclick="goBack()" disabled data-i18n="btnBack">&lt; Back</button>
+            <button class="btn btn-primary" id="btn-next" onclick="goNext()" data-i18n="btnNext">Next &gt;</button>
+            <button class="btn btn-secondary" id="btn-cancel" onclick="cancelSetup()" data-i18n="btnCancel">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        const currentLang = (function() {
+            const lang = navigator.language || navigator.userLanguage || 'en';
+            const map = { 'tr':'tr','de':'de','fr':'fr','es':'es','ru':'ru','zh':'zh','ja':'ja','pl':'pl','pt':'pt','it':'it' };
+            const code = lang.split('-')[0].toLowerCase();
+            return map[code] || 'en';
+        })();
+
+        const translations = {
+            en: {
+                title: 'Game Setup',
+                btnBack: '< Back',
+                btnNext: 'Next >',
+                btnCancel: 'Cancel',
+                buttons: { next: 'Next >', installing: 'Installing...', finish: 'Finish', close: 'Close' },
+                alerts: {
+                    acceptLicense: 'Please accept the license agreement to continue.',
+                    exitSetup: 'Are you sure you want to exit Setup?',
+                    browseFolder: 'Folder selection dialog (demo)'
+                },
+                progress: {
+                    preparing: 'Preparing...',
+                    copying: 'Copying: ',
+                    calculating: 'Remaining time: Calculating...',
+                    timePrefix: 'Remaining time: ~',
+                    timeSuffix: ' sec'
+                },
+                log: {
+                    checkDest: '[INFO] Checking destination folder...',
+                    destReady: '[OK] Destination folder ready: C:\\Program Files (x86)\\Beta Game',
+                    copying: '[INFO] Copying files...',
+                    updatingRegistry: '[INFO] Updating registry...',
+                    connInterrupted: '[WARN] Connection interrupted',
+                    unreachable: '[ERROR] Unable to reach installation server',
+                    fatalError: '[FATAL] Network error 0x80072EFE'
+                },
+                logStart: '[INFO] Setup is starting...',
+                titles: ['Welcome', 'License Agreement', 'Installation Location', 'Installing', 'Network Error'],
+                welcomeTitle: 'Welcome',
+                welcomeText1: 'Welcome to the Beta Game v2.4.0 Setup Wizard.',
+                welcomeText2: 'This program will install Beta Game on your computer. It is recommended that you close all other applications before continuing.',
+                welcomeText3: 'Click <strong>Next</strong> to continue, or <strong>Cancel</strong> to exit Setup.',
+                sysReqTitle: 'System Requirements',
+                licenseTitle: 'License Agreement',
+                licenseDesc: 'Please read the following license agreement carefully.',
+                acceptLabel: 'I accept the license agreement',
+                locationTitle: 'Installation Location',
+                locationDesc1: 'Choose the folder where Beta Game will be installed.',
+                locationDesc2: 'Setup requires at least <strong>45 GB</strong> of free disk space.',
+                browseBtn: 'Browse...',
+                availableSpace: 'Available space on C:',
+                installingTitle: 'Installing',
+                errorTitle: 'Network Error',
+                errorDesc1: 'Connection to the installation server was lost.',
+                errorDesc2: 'Please check your internet connection and try again.<br>Error code: 0x80072EFE'
+            },
+            tr: {
+                title: 'Oyun Kurulumu',
+                btnBack: '< Geri',
+                btnNext: 'İleri >',
+                btnCancel: 'İptal',
+                buttons: { next: 'İleri >', installing: 'Kuruluyor...', finish: 'Bitir', close: 'Kapat' },
+                alerts: {
+                    acceptLicense: 'Lütfen devam etmek için lisans sözleşmesini kabul edin.',
+                    exitSetup: 'Kurulumdan çıkmak istediğinize emin misiniz?',
+                    browseFolder: 'Klasör seçim penceresi (demo)'
+                },
+                progress: {
+                    preparing: 'Hazırlanıyor...',
+                    copying: 'Kopyalanıyor: ',
+                    calculating: 'Kalan süre: Hesaplanıyor...',
+                    timePrefix: 'Kalan süre: ~',
+                    timeSuffix: ' saniye'
+                },
+                log: {
+                    checkDest: '[INFO] Hedef klasör kontrol ediliyor...',
+                    destReady: '[OK] Hedef klasör hazır: C:\\Program Files (x86)\\Beta Game',
+                    copying: '[INFO] Dosyalar kopyalanıyor...',
+                    updatingRegistry: '[INFO] Kayıt defteri güncelleniyor...',
+                    connInterrupted: '[WARN] Bağlantı kesildi',
+                    unreachable: '[ERROR] Kurulum sunucusuna ulaşılamıyor',
+                    fatalError: '[FATAL] Ağ hatası 0x80072EFE'
+                },
+                logStart: '[INFO] Kurulum başlatılıyor...',
+                titles: ['Hoş Geldiniz', 'Lisans Sözleşmesi', 'Kurulum Konumu', 'Kurulum', 'Ağ Hatası'],
+                welcomeTitle: 'Hoş Geldiniz',
+                welcomeText1: 'Beta Game v2.4.0 kurulum sihirbazına hoş geldiniz.',
+                welcomeText2: 'Bu program bilgisayarınıza Beta Game\'i yükleyecektir. Devam etmeden önce tüm diğer uygulamaları kapatmanız önerilir.',
+                welcomeText3: '<strong>İleri</strong>\'yi tıklayarak devam edin veya <strong>İptal</strong>\'i tıklayarak kurulumdan çıkın.',
+                sysReqTitle: 'Sistem Gereksinimleri',
+                licenseTitle: 'Lisans Sözleşmesi',
+                licenseDesc: 'Lütfen aşağıdaki lisans sözleşmesini dikkatlice okuyun.',
+                acceptLabel: 'Lisans sözleşmesini kabul ediyorum',
+                locationTitle: 'Kurulum Konumu',
+                locationDesc1: 'Beta Game\'in kurulacağı klasörü seçin.',
+                locationDesc2: 'Kurulum için en az <strong>45 GB</strong> boş disk alanı gereklidir.',
+                browseBtn: 'Gözat...',
+                availableSpace: 'C: sürücüsünde kullanılabilir alan',
+                installingTitle: 'Kuruluyor',
+                errorTitle: 'Ağ Hatası',
+                errorDesc1: 'Kurulum sunucusuyla bağlantı kesildi.',
+                errorDesc2: 'Lütfen internet bağlantınızı kontrol edip tekrar deneyin.<br>Hata kodu: 0x80072EFE'
+            },
+            de: {
+                title: 'Spiel Setup',
+                btnBack: '< Zur\u00fcck',
+                btnNext: 'Weiter >',
+                btnCancel: 'Abbrechen',
+                buttons: { next: 'Weiter >', installing: 'Wird installiert...', finish: 'Fertig', close: 'Schlie\u00dfen' },
+                alerts: {
+                    acceptLicense: 'Bitte akzeptieren Sie die Lizenzvereinbarung, um fortzufahren.',
+                    exitSetup: 'Sind Sie sicher, dass Sie das Setup beenden m\u00f6chten?',
+                    browseFolder: 'Ordnerauswahldialog (Demo)'
+                },
+                progress: {
+                    preparing: 'Wird vorbereitet...',
+                    copying: 'Kopiere: ',
+                    calculating: 'Verbleibende Zeit: Wird berechnet...',
+                    timePrefix: 'Verbleibende Zeit: ~',
+                    timeSuffix: ' Sek.'
+                },
+                log: {
+                    checkDest: '[INFO] Zielordner wird \u00fcberpr\u00fcft...',
+                    destReady: '[OK] Zielordner bereit: C:\\Program Files (x86)\\Beta Game',
+                    copying: '[INFO] Dateien werden kopiert...',
+                    updatingRegistry: '[INFO] Registrierungsdatenbank wird aktualisiert...',
+                    connInterrupted: '[WARN] Verbindung unterbrochen',
+                    unreachable: '[ERROR] Installationserver nicht erreichbar',
+                    fatalError: '[FATAL] Netzwerkfehler 0x80072EFE'
+                },
+                logStart: '[INFO] Setup wird gestartet...',
+                titles: ['Willkommen', 'Lizenzvereinbarung', 'Installationsort', 'Wird installiert', 'Netzwerkfehler'],
+                welcomeTitle: 'Willkommen',
+                welcomeText1: 'Willkommen beim Beta Game v2.4 Setup-Assistenten.',
+                welcomeText2: 'Dieses Programm installiert Beta Game auf Ihrem Computer. Es wird empfohlen, alle anderen Anwendungen zu schlie\u00dfen, bevor Sie fortfahren.',
+                welcomeText3: 'Klicken Sie auf <strong>Weiter</strong>, um fortzufahren, oder auf <strong>Abbrechen</strong>, um das Setup zu beenden.',
+                sysReqTitle: 'Systemanforderungen',
+                licenseTitle: 'Lizenzvereinbarung',
+                licenseDesc: 'Bitte lesen Sie die folgende Lizenzvereinbarung sorgf\u00e4ltig durch.',
+                acceptLabel: 'Ich akzeptiere die Lizenzvereinbarung',
+                locationTitle: 'Installationsort',
+                locationDesc1: 'W\u00e4hlen Sie den Ordner, in dem Beta Game installiert werden soll.',
+                locationDesc2: 'Das Setup erfordert mindestens <strong>45 GB</strong> freien Speicherplatz.',
+                browseBtn: 'Durchsuchen...',
+                availableSpace: 'Verf\u00fcgbarer Speicherplatz auf C:',
+                installingTitle: 'Wird installiert',
+                errorTitle: 'Netzwerkfehler',
+                errorDesc1: 'Die Verbindung zum Installationserver wurde unterbrochen.',
+                errorDesc2: 'Bitte \u00fcberpr\u00fcfen Sie Ihre Internetverbindung und versuchen Sie es erneut.<br>Fehlercode: 0x80072EFE'
+            },
+            fr: {
+                title: 'Configuration du Jeu',
+                btnBack: '< Pr\u00e9c\u00e9dent',
+                btnNext: 'Suivant >',
+                btnCancel: 'Annuler',
+                buttons: { next: 'Suivant >', installing: 'Installation en cours...', finish: 'Terminer', close: 'Fermer' },
+                alerts: {
+                    acceptLicense: "Veuillez accepter le contrat de licence pour continuer.",
+                    exitSetup: "\u00cates-vous s\u00fbr de vouloir quitter l'installation ?",
+                    browseFolder: 'Bo\u00eete de dialogue de s\u00e9lection de dossier (d\u00e9mo)'
+                },
+                progress: {
+                    preparing: 'Pr\u00e9paration en cours...',
+                    copying: 'Copie en cours: ',
+                    calculating: 'Temps restant: Calcul en cours...',
+                    timePrefix: 'Temps restant: ~',
+                    timeSuffix: ' sec'
+                },
+                log: {
+                    checkDest: "[INFO] V\u00e9rification du dossier de destination...",
+                    destReady: "[OK] Dossier de destination pr\u00eat: C:\\Program Files (x86)\\Beta Game",
+                    copying: '[INFO] Copie des fichiers en cours...',
+                    updatingRegistry: '[INFO] Mise \u00e0 jour du registre...',
+                    connInterrupted: '[WARN] Connexion interrompue',
+                    unreachable: "[ERROR] Impossible d'atteindre le serveur d'installation",
+                    fatalError: "[FATAL] Erreur r\u00e9seau 0x80072EFE"
+                },
+                logStart: "[INFO] L'installation d\u00e9marre...",
+                titles: ['Bienvenue', "Contrat de licence", 'Emplacement', 'Installation en cours', 'Erreur r\u00e9seau'],
+                welcomeTitle: 'Bienvenue',
+                welcomeText1: "Bienvenue dans l'assistant d'installation Beta Game v2.4.",
+                welcomeText2: "Ce programme va installer Beta Game sur votre ordinateur. Il est recommand\u00e9 de fermer toutes les autres applications avant de continuer.",
+                welcomeText3: "Cliquez sur <strong>Suivant</strong> pour continuer, ou sur <strong>Annuler</strong> pour quitter l'installation.",
+                sysReqTitle: 'Configuration requise',
+                licenseTitle: 'Contrat de licence',
+                licenseDesc: 'Veuillez lire attentivement le contrat de licence suivant.',
+                acceptLabel: "J'accepte le contrat de licence",
+                locationTitle: "Emplacement de l'installation",
+                locationDesc1: "Choisissez le dossier dans lequel Beta Game sera install\u00e9.",
+                locationDesc2: "L'installation n\u00e9cessite au moins <strong>45 Go</strong> d'espace disque libre.",
+                browseBtn: 'Parcourir...',
+                availableSpace: "Espace disponible sur C:",
+                installingTitle: 'Installation en cours',
+                errorTitle: 'Erreur r\u00e9seau',
+                errorDesc1: "La connexion au serveur d'installation a \u00e9t\u00e9 perdue.",
+                errorDesc2: "Veuillez v\u00e9rifier votre connexion Internet et r\u00e9essayer.<br>Code d'erreur: 0x80072EFE"
+            },
+            es: {
+                title: 'Configuraci\u00f3n del Juego',
+                btnBack: '< Atr\u00e1s',
+                btnNext: 'Siguiente >',
+                btnCancel: 'Cancelar',
+                buttons: { next: 'Siguiente >', installing: 'Instalando...', finish: 'Finalizar', close: 'Cerrar' },
+                alerts: {
+                    acceptLicense: 'Por favor, acepte el acuerdo de licencia para continuar.',
+                    exitSetup: '\u00bfEst\u00e1 seguro de que desea salir de la instalaci\u00f3n?',
+                    browseFolder: 'Cuadro de di\u00e1logo de selecci\u00f3n de carpeta (demo)'
+                },
+                progress: {
+                    preparing: 'Preparando...',
+                    copying: 'Copiando: ',
+                    calculating: 'Tiempo restante: Calculando...',
+                    timePrefix: 'Tiempo restante: ~',
+                    timeSuffix: ' seg'
+                },
+                log: {
+                    checkDest: '[INFO] Comprobando carpeta de destino...',
+                    destReady: '[OK] Carpeta de destino lista: C:\\Program Files (x86)\\Beta Game',
+                    copying: '[INFO] Copiando archivos...',
+                    updatingRegistry: '[INFO] Actualizando registro...',
+                    connInterrupted: '[WARN] Conexi\u00f3n interrumpida',
+                    unreachable: '[ERROR] No se puede alcanzar el servidor de instalaci\u00f3n',
+                    fatalError: '[FATAL] Error de red 0x80072EFE'
+                },
+                logStart: '[INFO] Iniciando instalaci\u00f3n...',
+                titles: ['Bienvenido', 'Acuerdo de licencia', 'Ubicaci\u00f3n', 'Instalando', 'Error de red'],
+                welcomeTitle: 'Bienvenido',
+                welcomeText1: 'Bienvenido al asistente de instalaci\u00f3n de Beta Game v2.4.',
+                welcomeText2: 'Este programa instalar\u00e1 Beta Game en su computadora. Se recomienda cerrar todas las dem\u00e1s aplicaciones antes de continuar.',
+                welcomeText3: 'Haga clic en <strong>Siguiente</strong> para continuar, o en <strong>Cancelar</strong> para salir de la instalaci\u00f3n.',
+                sysReqTitle: 'Requisitos del sistema',
+                licenseTitle: 'Acuerdo de licencia',
+                licenseDesc: 'Por favor, lea cuidadosamente el siguiente acuerdo de licencia.',
+                acceptLabel: 'Acepto el acuerdo de licencia',
+                locationTitle: 'Ubicaci\u00f3n de instalaci\u00f3n',
+                locationDesc1: 'Elija la carpeta donde se instalar\u00e1 Beta Game.',
+                locationDesc2: 'La instalaci\u00f3n requiere al menos <strong>45 GB</strong> de espacio libre en disco.',
+                browseBtn: 'Examinar...',
+                availableSpace: 'Espacio disponible en C:',
+                installingTitle: 'Instalando',
+                errorTitle: 'Error de red',
+                errorDesc1: 'Se perdi\u00f3 la conexi\u00f3n con el servidor de instalaci\u00f3n.',
+                errorDesc2: 'Por favor, verifique su conexi\u00f3n a Internet e int\u00e9ntelo de nuevo.<br>C\u00f3digo de error: 0x80072EFE'
+            },
+            ru: {
+                title: '\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430 Beta Game',
+                btnBack: '< \u041d\u0430\u0437\u0430\u0434',
+                btnNext: '\u0414\u0430\u043b\u0435\u0435 >',
+                btnCancel: '\u041e\u0442\u043c\u0435\u043d\u0430',
+                buttons: { next: '\u0414\u0430\u043b\u0435\u0435 >', installing: '\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430...', finish: '\u0417\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u044c', close: '\u0417\u0430\u043a\u0440\u044b\u0442\u044c' },
+                alerts: {
+                    acceptLicense: '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u043f\u0440\u0438\u043c\u0438\u0442\u0435 \u043b\u0438\u0446\u0435\u043d\u0437\u0438\u043e\u043d\u043d\u043e\u0435 \u0441\u043e\u0433\u043b\u0430\u0448\u0435\u043d\u0438\u0435, \u0447\u0442\u043e\u0431\u044b \u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u044c.',
+                    exitSetup: '\u0412\u044b \u0443\u0432\u0435\u0440\u0435\u043d\u044b, \u0447\u0442\u043e \u0445\u043e\u0442\u0438\u0442\u0435 \u0432\u044b\u0439\u0442\u0438 \u0438\u0437 \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0438?',
+                    browseFolder: '\u0414\u0438\u0430\u043b\u043e\u0433 \u0432\u044b\u0431\u043e\u0440\u0430 \u043f\u0430\u043f\u043a\u0438 (\u0434\u0435\u043c\u043e)'
+                },
+                progress: {
+                    preparing: '\u041f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u043a\u0430...',
+                    copying: '\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435: ',
+                    calculating: '\u041e\u0441\u0442\u0430\u0432\u0448\u0435\u0435\u0441\u044f \u0432\u0440\u0435\u043c\u044f: \u0412\u044b\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u0435...',
+                    timePrefix: '\u041e\u0441\u0442\u0430\u0432\u0448\u0435\u0435\u0441\u044f \u0432\u0440\u0435\u043c\u044f: ~',
+                    timeSuffix: ' \u0441\u0435\u043a'
+                },
+                log: {
+                    checkDest: '[INFO] \u041f\u0440\u043e\u0432\u0435\u0440\u043a\u0430 \u043f\u0430\u043f\u043a\u0438 \u043d\u0430\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f...',
+                    destReady: '[OK] \u041f\u0430\u043f\u043a\u0430 \u0433\u043e\u0442\u043e\u0432\u0430: C:\\Program Files (x86)\\Beta Game',
+                    copying: '[INFO] \u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u043e\u0432...',
+                    updatingRegistry: '[INFO] \u041e\u0431\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u0435 \u0440\u0435\u0435\u0441\u0442\u0440\u0430...',
+                    connInterrupted: '[WARN] \u0421\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u0435 \u043f\u0440\u0435\u0440\u0432\u0430\u043d\u043e',
+                    unreachable: '[ERROR] \u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0434\u043e\u0441\u0442\u0438\u0447\u044c \u0441\u0435\u0440\u0432\u0435\u0440 \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0438',
+                    fatalError: '[FATAL] \u041e\u0448\u0438\u0431\u043a\u0430 \u0441\u0435\u0442\u0438 0x80072EFE'
+                },
+                logStart: '[INFO] \u0417\u0430\u043f\u0443\u0441\u043a \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0438...',
+                titles: ['\u0414\u043e\u0431\u0440\u043e \u043f\u043e\u0436\u0430\u043b\u043e\u0432\u0430\u0442\u044c', '\u041b\u0438\u0446\u0435\u043d\u0437\u0438\u043e\u043d\u043d\u043e\u0435 \u0441\u043e\u0433\u043b\u0430\u0448\u0435\u043d\u0438\u0435', '\u041c\u0435\u0441\u0442\u043e \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0438', '\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430', '\u041e\u0448\u0438\u0431\u043a\u0430 \u0441\u0435\u0442\u0438'],
+                welcomeTitle: '\u0414\u043e\u0431\u0440\u043e \u043f\u043e\u0436\u0430\u043b\u043e\u0432\u0430\u0442\u044c',
+                welcomeText1: '\u0414\u043e\u0431\u0440\u043e \u043f\u043e\u0436\u0430\u043b\u043e\u0432\u0430\u0442\u044c \u0432 \u043c\u0430\u0441\u0442\u0435\u0440 \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0438 Beta Game v2.4.',
+                welcomeText2: '\u042d\u0442\u0430 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0430 \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442 Beta Game \u043d\u0430 \u0432\u0430\u0448 \u043a\u043e\u043c\u043f\u044c\u044e\u0442\u0435\u0440. \u0420\u0435\u043a\u043e\u043c\u0435\u043d\u0434\u0443\u0435\u0442\u0441\u044f \u0437\u0430\u043a\u0440\u044b\u0442\u044c \u0432\u0441\u0435 \u043e\u0441\u0442\u0430\u043b\u044c\u043d\u044b\u0435 \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u044f \u043f\u0435\u0440\u0435\u0434 \u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0435\u043d\u0438\u0435\u043c.',
+                welcomeText3: '\u041d\u0430\u0436\u043c\u0438\u0442\u0435 <strong>\u0414\u0430\u043b\u0435\u0435</strong>, \u0447\u0442\u043e\u0431\u044b \u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u044c, \u0438\u043b\u0438 <strong>\u041e\u0442\u043c\u0435\u043d\u0430</strong>, \u0447\u0442\u043e\u0431\u044b \u0432\u044b\u0439\u0442\u0438.',
+                sysReqTitle: '\u0421\u0438\u0441\u0442\u0435\u043c\u043d\u044b\u0435 \u0442\u0440\u0435\u0431\u043e\u0432\u0430\u043d\u0438\u044f',
+                licenseTitle: '\u041b\u0438\u0446\u0435\u043d\u0437\u0438\u043e\u043d\u043d\u043e\u0435 \u0441\u043e\u0433\u043b\u0430\u0448\u0435\u043d\u0438\u0435',
+                licenseDesc: '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0432\u043d\u0438\u043c\u0430\u0442\u0435\u043b\u044c\u043d\u043e \u043f\u0440\u043e\u0447\u0442\u0438\u0442\u0435 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0435 \u043b\u0438\u0446\u0435\u043d\u0437\u0438\u043e\u043d\u043d\u043e\u0435 \u0441\u043e\u0433\u043b\u0430\u0448\u0435\u043d\u0438\u0435.',
+                acceptLabel: '\u042f \u043f\u0440\u0438\u043d\u0438\u043c\u0430\u044e \u043b\u0438\u0446\u0435\u043d\u0437\u0438\u043e\u043d\u043d\u043e\u0435 \u0441\u043e\u0433\u043b\u0430\u0448\u0435\u043d\u0438\u0435',
+                locationTitle: '\u041c\u0435\u0441\u0442\u043e \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0438',
+                locationDesc1: '\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043f\u0430\u043f\u043a\u0443, \u0432 \u043a\u043e\u0442\u043e\u0440\u0443\u044e \u0431\u0443\u0434\u0435\u0442 \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d Beta Game.',
+                locationDesc2: '\u0414\u043b\u044f \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0438 \u0442\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044f \u043d\u0435 \u043c\u0435\u043d\u0435\u0435 <strong>45 \u0413\u0411</strong> \u0441\u0432\u043e\u0431\u043e\u0434\u043d\u043e\u0433\u043e \u043c\u0435\u0441\u0442\u0430.',
+                browseBtn: '\u041e\u0431\u0437\u043e\u0440...',
+                availableSpace: '\u0421\u0432\u043e\u0431\u043e\u0434\u043d\u043e\u0435 \u043c\u0435\u0441\u0442\u043e \u043d\u0430 C:',
+                installingTitle: '\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430',
+                errorTitle: '\u041e\u0448\u0438\u0431\u043a\u0430 \u0441\u0435\u0442\u0438',
+                errorDesc1: '\u0421\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u0435 \u0441 \u0441\u0435\u0440\u0432\u0435\u0440\u043e\u043c \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0438 \u043f\u0440\u0435\u0440\u0432\u0430\u043d\u043e.',
+                errorDesc2: '\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u043f\u0440\u043e\u0432\u0435\u0440\u044c\u0442\u0435 \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u0435 \u043a \u0418\u043d\u0442\u0435\u0440\u043d\u0435\u0442\u0443 \u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u0438\u0442\u0435 \u043f\u043e\u043f\u044b\u0442\u043a\u0443.<br>\u041a\u043e\u0434 \u043e\u0448\u0438\u0431\u043a\u0438: 0x80072EFE'
+            },
+            zh: {
+                title: 'Beta Game \u5b89\u88c5',
+                btnBack: '< \u8fd4\u56de',
+                btnNext: '\u4e0b\u4e00\u6b65 >',
+                btnCancel: '\u53d6\u6d88',
+                buttons: { next: '\u4e0b\u4e00\u6b65 >', installing: '\u6b63\u5728\u5b89\u88c5...', finish: '\u5b8c\u6210', close: '\u5173\u95ed' },
+                alerts: {
+                    acceptLicense: '\u8bf7\u63a5\u53d7\u8bb8\u53ef\u534f\u8bae\u4ee5\u7ee7\u7eed\u3002',
+                    exitSetup: '\u60a8\u786e\u5b9a\u8981\u9000\u51fa\u5b89\u88c5\u5417\uff1f',
+                    browseFolder: '\u6587\u4ef6\u5939\u9009\u62e9\u5bf9\u8bdd\u6846\uff08\u6f14\u793a\uff09'
+                },
+                progress: {
+                    preparing: '\u6b63\u5728\u51c6\u5907...',
+                    copying: '\u6b63\u5728\u590d\u5236: ',
+                    calculating: '\u5269\u4f59\u65f6\u95f4\uff1a\u6b63\u5728\u8ba1\u7b97...',
+                    timePrefix: '\u5269\u4f59\u65f6\u95f4\uff1a~',
+                    timeSuffix: ' \u79d2'
+                },
+                log: {
+                    checkDest: '[INFO] \u6b63\u5728\u68c0\u67e5\u76ee\u6807\u6587\u4ef6\u5939...',
+                    destReady: '[OK] \u76ee\u6807\u6587\u4ef6\u5939\u5df2\u5c31\u7eea\uff1aC:\\Program Files (x86)\\Beta Game',
+                    copying: '[INFO] \u6b63\u5728\u590d\u5236\u6587\u4ef6...',
+                    updatingRegistry: '[INFO] \u6b63\u5728\u66f4\u65b0\u6ce8\u518c\u8868...',
+                    connInterrupted: '[WARN] \u8fde\u63a5\u5df2\u4e2d\u65ad',
+                    unreachable: '[ERROR] \u65e0\u6cd5\u8fde\u63a5\u5230\u5b89\u88c5\u670d\u52a1\u5668',
+                    fatalError: '[FATAL] \u7f51\u7edc\u9519\u8bef 0x80072EFE'
+                },
+                logStart: '[INFO] \u5b89\u88c5\u6b63\u5728\u542f\u52a8...',
+                titles: ['\u6b22\u8fce', '\u8bb8\u53ef\u534f\u8bae', '\u5b89\u88c5\u4f4d\u7f6e', '\u6b63\u5728\u5b89\u88c5', '\u7f51\u7edc\u9519\u8bef'],
+                welcomeTitle: '\u6b22\u8fce',
+                welcomeText1: '\u6b22\u8fce\u4f7f\u7528 Beta Game v2.4 \u5b89\u88c5\u5411\u5bfc\u3002',
+                welcomeText2: '\u672c\u7a0b\u5e8f\u5c06\u5728\u60a8\u7684\u8ba1\u7b97\u673a\u4e0a\u5b89\u88c5 Beta Game\u3002\u5efa\u8bae\u5728\u7ee7\u7eed\u4e4b\u524d\u5173\u95ed\u6240\u6709\u5176\u4ed6\u5e94\u7528\u7a0b\u5e8f\u3002',
+                welcomeText3: '\u70b9\u51fb <strong>\u4e0b\u4e00\u6b65</strong> \u7ee7\u7eed\uff0c\u6216\u70b9\u51fb <strong>\u53d6\u6d88</strong> \u9000\u51fa\u5b89\u88c5\u3002',
+                sysReqTitle: '\u7cfb\u7edf\u8981\u6c42',
+                licenseTitle: '\u8bb8\u53ef\u534f\u8bae',
+                licenseDesc: '\u8bf7\u4ed4\u7ec6\u9605\u8bfb\u4ee5\u4e0b\u8bb8\u53ef\u534f\u8bae\u3002',
+                acceptLabel: '\u6211\u63a5\u53d7\u8bb8\u53ef\u534f\u8bae',
+                locationTitle: '\u5b89\u88c5\u4f4d\u7f6e',
+                locationDesc1: '\u9009\u62e9\u5c06\u5b89\u88c5 Beta Game \u7684\u6587\u4ef6\u5939\u3002',
+                locationDesc2: '\u5b89\u88c5\u81f3\u5c11\u9700\u8981 <strong>45 GB</strong> \u7684\u7a7a\u95f2\u78c1\u76d8\u7a7a\u95f4\u3002',
+                browseBtn: '\u6d4f\u89c8...',
+                availableSpace: 'C: \u4e0a\u7684\u53ef\u7528\u7a7a\u95f4',
+                installingTitle: '\u6b63\u5728\u5b89\u88c5',
+                errorTitle: '\u7f51\u7edc\u9519\u8bef',
+                errorDesc1: '\u4e0e\u5b89\u88c5\u670d\u52a1\u5668\u7684\u8fde\u63a5\u5df2\u4e2d\u65ad\u3002',
+                errorDesc2: '\u8bf7\u68c0\u67e5\u60a8\u7684\u4e92\u8054\u7f51\u8fde\u63a5\u5e76\u91cd\u8bd5\u3002<br>\u9519\u8bef\u4ee3\u7801\uff1a0x80072EFE'
+            },
+            ja: {
+                title: 'Beta Game \u30bb\u30c3\u30c8\u30a2\u30c3\u30d7',
+                btnBack: '< \u623b\u308b',
+                btnNext: '\u6b21\u3078 >',
+                btnCancel: '\u30ad\u30e3\u30f3\u30bb\u30eb',
+                buttons: { next: '\u6b21\u3078 >', installing: '\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u4e2d...', finish: '\u7d42\u4e86', close: '\u9589\u3058\u308b' },
+                alerts: {
+                    acceptLicense: '\u7d9a\u884c\u3059\u308b\u306b\u306f\u3001\u30e9\u30a4\u30bb\u30f3\u30b9\u5951\u7d04\u306b\u540c\u610f\u3057\u3066\u304f\u3060\u3055\u3044\u3002',
+                    exitSetup: '\u30bb\u30c3\u30c8\u30a2\u30c3\u30d7\u3092\u7d42\u4e86\u3057\u307e\u3059\u304b\uff1f',
+                    browseFolder: '\u30d5\u30a9\u30eb\u30c0\u9078\u629e\u30c0\u30a4\u30a2\u30ed\u30b0\uff08\u30c7\u30e2\uff09'
+                },
+                progress: {
+                    preparing: '\u6e96\u5099\u4e2d...',
+                    copying: '\u30b3\u30d4\u30fc\u4e2d: ',
+                    calculating: '\u6b8b\u308a\u6642\u9593: \u8a08\u7b97\u4e2d...',
+                    timePrefix: '\u6b8b\u308a\u6642\u9593: ~',
+                    timeSuffix: ' \u79d2'
+                },
+                log: {
+                    checkDest: '[INFO] \u5bfe\u8c61\u30d5\u30a9\u30eb\u30c0\u3092\u78ba\u8a8d\u4e2d...',
+                    destReady: '[OK] \u5bfe\u8c61\u30d5\u30a9\u30eb\u30c0\u306e\u6e96\u5099\u5b8c\u4e86: C:\\Program Files (x86)\\Beta Game',
+                    copying: '[INFO] \u30d5\u30a1\u30a4\u30eb\u3092\u30b3\u30d4\u30fc\u4e2d...',
+                    updatingRegistry: '[INFO] \u30ec\u30b8\u30b9\u30c8\u30ea\u3092\u66f4\u65b0\u4e2d...',
+                    connInterrupted: '[WARN] \u63a5\u7d9a\u304c\u5207\u65ad\u3055\u308c\u307e\u3057\u305f',
+                    unreachable: '[ERROR] \u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u30b5\u30fc\u30d0\u30fc\u306b\u63a5\u7d9a\u3067\u304d\u307e\u305b\u3093',
+                    fatalError: '[FATAL] \u30cd\u30c3\u30c8\u30ef\u30fc\u30af\u30a8\u30e9\u30fc 0x80072EFE'
+                },
+                logStart: '[INFO] \u30bb\u30c3\u30c8\u30a2\u30c3\u30d7\u3092\u8d77\u52d5\u4e2d...',
+                titles: ['\u3088\u3046\u3053\u305d', '\u30e9\u30a4\u30bb\u30f3\u30b9\u5951\u7d04', '\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u4f4d\u7f6e', '\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u4e2d', '\u30cd\u30c3\u30c8\u30ef\u30fc\u30af\u30a8\u30e9\u30fc'],
+                welcomeTitle: '\u3088\u3046\u3053\u305d',
+                welcomeText1: 'Beta Game v2.4 \u30bb\u30c3\u30c8\u30a2\u30c3\u30d7\u30a6\u30a3\u30b6\u30fc\u30c9\u3078\u3088\u3046\u3053\u305d\u3002',
+                welcomeText2: '\u3053\u306e\u30d7\u30ed\u30b0\u30e9\u30e0\u306f\u30b3\u30f3\u30d4\u30e5\u30fc\u30bf\u30fc\u306b Beta Game \u3092\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u3057\u307e\u3059\u3002\u7d9c\u884c\u3059\u308b\u524d\u306b\u3001\u4ed6\u306e\u3059\u3079\u3066\u306e\u30a2\u30d7\u30ea\u30b1\u30fc\u30b7\u30e7\u30f3\u3092\u7d42\u4e86\u3059\u308b\u3053\u3068\u3092\u63a8\u5968\u3057\u307e\u3059\u3002',
+                welcomeText3: '<strong>\u6b21\u3078</strong>\u3092\u30af\u30ea\u30c3\u30af\u3057\u3066\u7d9c\u884c\u3059\u308b\u304b\u3001<strong>\u30ad\u30e3\u30f3\u30bb\u30eb</strong>\u3092\u30af\u30ea\u30c3\u30af\u3057\u3066\u30bb\u30c3\u30c8\u30a2\u30c3\u30d7\u3092\u7d42\u4e86\u3057\u307e\u3059\u3002',
+                sysReqTitle: '\u30b7\u30b9\u30c6\u30e0\u8981\u4ef6',
+                licenseTitle: '\u30e9\u30a4\u30bb\u30f3\u30b9\u5951\u7d04',
+                licenseDesc: '\u4ee5\u4e0b\u306e\u30e9\u30a4\u30bb\u30f3\u30b9\u5951\u7d04\u3092\u6ce8\u610f\u3057\u3066\u304a\u8aad\u307f\u304f\u3060\u3055\u3044\u3002',
+                acceptLabel: '\u30e9\u30a4\u30bb\u30f3\u30b9\u5951\u7d04\u306b\u540c\u610f\u3057\u307e\u3059',
+                locationTitle: '\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u4f4d\u7f6e',
+                locationDesc1: 'Beta Game \u3092\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u3059\u308b\u30d5\u30a9\u30eb\u30c0\u3092\u9078\u629e\u3057\u3066\u304f\u3060\u3055\u3044\u3002',
+                locationDesc2: '\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u306b\u306f\u6700\u4f4e <strong>45 GB</strong> \u306e\u7a7a\u304d\u30c7\u30a3\u30b9\u30af\u7a7a\u9593\u304c\u5fc5\u8981\u3067\u3059\u3002',
+                browseBtn: '\u53c2\u7167...',
+                availableSpace: 'C: \u306e\u7a7a\u304d\u5bb9\u91cf',
+                installingTitle: '\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u4e2d',
+                errorTitle: '\u30cd\u30c3\u30c8\u30ef\u30fc\u30af\u30a8\u30e9\u30fc',
+                errorDesc1: '\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u30b5\u30fc\u30d0\u30fc\u3078\u306e\u63a5\u7d9a\u304c\u5207\u65ad\u3055\u308c\u307e\u3057\u305f\u3002',
+                errorDesc2: '\u30a4\u30f3\u30bf\u30fc\u30cd\u30c3\u30c8\u63a5\u7d9a\u3092\u78ba\u8a8d\u3057\u3066\u3001\u3082\u3046\u4e00\u5ea6\u304a\u8a66\u3057\u304f\u3060\u3055\u3044\u3002<br>\u30a8\u30e9\u30fc\u30b3\u30fc\u30c9\uff1a0x80072EFE'
+            },
+            pl: {
+                title: 'Instalacja Beta Game',
+                btnBack: '< Wstecz',
+                btnNext: 'Dalej >',
+                btnCancel: 'Anuluj',
+                buttons: { next: 'Dalej >', installing: 'Instalowanie...', finish: 'Zako\u0144cz', close: 'Zamknij' },
+                alerts: {
+                    acceptLicense: 'Aby kontynuowa\u0107, zaakceptuj umow\u0119 licencyjn\u0105.',
+                    exitSetup: 'Czy na pewno chcesz zako\u0144czy\u0107 instalacj\u0119?',
+                    browseFolder: 'Okno wyboru folderu (demo)'
+                },
+                progress: {
+                    preparing: 'Przygotowywanie...',
+                    copying: 'Kopiowanie: ',
+                    calculating: 'Pozosta\u0142y czas: Obliczanie...',
+                    timePrefix: 'Pozosta\u0142y czas: ~',
+                    timeSuffix: ' sek'
+                },
+                log: {
+                    checkDest: '[INFO] Sprawdzanie folderu docelowego...',
+                    destReady: '[OK] Folder docelowy gotowy: C:\\Program Files (x86)\\Beta Game',
+                    copying: '[INFO] Kopiowanie plik\u00f3w...',
+                    updatingRegistry: '[INFO] Aktualizowanie rejestru...',
+                    connInterrupted: '[WARN] Po\u0142\u0105czenie przerwane',
+                    unreachable: '[ERROR] Nie mo\u017cna po\u0142\u0105czy\u0107 si\u0119 z serwerem instalacji',
+                    fatalError: '[FATAL] B\u0142\u0105d sieci 0x80072EFE'
+                },
+                logStart: '[INFO] Uruchamianie instalacji...',
+                titles: ['Witaj', 'Umowa licencyjna', 'Lokalizacja instalacji', 'Instalowanie', 'B\u0142\u0105d sieci'],
+                welcomeTitle: 'Witaj',
+                welcomeText1: 'Witaj w kreatorze instalacji Beta Game v2.4.',
+                welcomeText2: 'Ten program zainstaluje Beta Game na Twoim komputerze. Zaleca si\u0119 zamkni\u0119cie wszystkich innych aplikacji przed kontynuowaniem.',
+                welcomeText3: 'Kliknij <strong>Dalej</strong>, aby kontynuowa\u0107, lub <strong>Anuluj</strong>, aby zako\u0144czy\u0107 instalacj\u0119.',
+                sysReqTitle: 'Wymagania systemowe',
+                licenseTitle: 'Umowa licencyjna',
+                licenseDesc: 'Prosimy o dok\u0142adne zapoznanie si\u0119 z poni\u017csz\u0105 umow\u0105 licencyjn\u0105.',
+                acceptLabel: 'Akceptuj\u0119 umow\u0119 licencyjn\u0105',
+                locationTitle: 'Lokalizacja instalacji',
+                locationDesc1: 'Wybierz folder, w kt\u00f3rym zostanie zainstalowany Beta Game.',
+                locationDesc2: 'Instalacja wymaga co najmniej <strong>45 GB</strong> wolnego miejsca na dysku.',
+                browseBtn: 'Przegl\u0105daj...',
+                availableSpace: 'Wolne miejsce na C:',
+                installingTitle: 'Instalowanie',
+                errorTitle: 'B\u0142\u0105d sieci',
+                errorDesc1: 'Po\u0142\u0105czenie z serwerem instalacji zosta\u0142o przerwane.',
+                errorDesc2: 'Sprawd\u017a po\u0142\u0105czenie internetowe i spr\u00f3buj ponownie.<br>Kod b\u0142\u0119du: 0x80072EFE'
+            },
+            pt: {
+                title: 'Configura\u00e7\u00e3o do Beta Game',
+                btnBack: '< Voltar',
+                btnNext: 'Avan\u00e7ar >',
+                btnCancel: 'Cancelar',
+                buttons: { next: 'Avan\u00e7ar >', installing: 'A instalar...', finish: 'Concluir', close: 'Fechar' },
+                alerts: {
+                    acceptLicense: 'Aceite o contrato de licen\u00e7a para continuar.',
+                    exitSetup: 'Tem a certeza de que pretende sair da configura\u00e7\u00e3o?',
+                    browseFolder: 'Caixa de di\u00e1logo de sele\u00e7\u00e3o de pasta (demo)'
+                },
+                progress: {
+                    preparing: 'A preparar...',
+                    copying: 'A copiar: ',
+                    calculating: 'Tempo restante: A calcular...',
+                    timePrefix: 'Tempo restante: ~',
+                    timeSuffix: ' seg'
+                },
+                log: {
+                    checkDest: '[INFO] A verificar pasta de destino...',
+                    destReady: '[OK] Pasta de destino pronta: C:\\Program Files (x86)\\Beta Game',
+                    copying: '[INFO] A copiar ficheiros...',
+                    updatingRegistry: '[INFO] A atualizar registo...',
+                    connInterrupted: '[WARN] Liga\u00e7\u00e3o interrompida',
+                    unreachable: '[ERROR] N\u00e3o \u00e9 poss\u00edvel contactar o servidor de instala\u00e7\u00e3o',
+                    fatalError: '[FATAL] Erro de rede 0x80072EFE'
+                },
+                logStart: '[INFO] A iniciar configura\u00e7\u00e3o...',
+                titles: ['Bem-vindo', 'Contrato de licen\u00e7a', 'Localiza\u00e7\u00e3o', 'A instalar', 'Erro de rede'],
+                welcomeTitle: 'Bem-vindo',
+                welcomeText1: 'Bem-vindo ao assistente de configura\u00e7\u00e3o do Beta Game v2.4.',
+                welcomeText2: 'Este programa vai instalar o Beta Game no seu computador. \u00c9 recomendado fechar todas as outras aplica\u00e7\u00f5es antes de continuar.',
+                welcomeText3: 'Clique em <strong>Avan\u00e7ar</strong> para continuar, ou em <strong>Cancelar</strong> para sair da configura\u00e7\u00e3o.',
+                sysReqTitle: 'Requisitos do sistema',
+                licenseTitle: 'Contrato de licen\u00e7a',
+                licenseDesc: 'Leia atentamente o seguinte contrato de licen\u00e7a.',
+                acceptLabel: 'Aceito o contrato de licen\u00e7a',
+                locationTitle: 'Localiza\u00e7\u00e3o da instala\u00e7\u00e3o',
+                locationDesc1: 'Escolha a pasta onde o Beta Game ser\u00e1 instalado.',
+                locationDesc2: 'A instala\u00e7\u00e3o requer pelo menos <strong>45 GB</strong> de espa\u00e7o livre.',
+                browseBtn: 'Procurar...',
+                availableSpace: 'Espa\u00e7o dispon\u00edvel em C:',
+                installingTitle: 'A instalar',
+                errorTitle: 'Erro de rede',
+                errorDesc1: 'A liga\u00e7\u00e3o ao servidor de instala\u00e7\u00e3o foi perdida.',
+                errorDesc2: 'Verifique a sua liga\u00e7\u00e3o \u00e0 Internet e tente novamente.<br>C\u00f3digo de erro: 0x80072EFE'
+            },
+            it: {
+                title: 'Configurazione Beta Game',
+                btnBack: '< Indietro',
+                btnNext: 'Avanti >',
+                btnCancel: 'Annulla',
+                buttons: { next: 'Avanti >', installing: 'Installazione in corso...', finish: 'Fine', close: 'Chiudi' },
+                alerts: {
+                    acceptLicense: "Accetta il contratto di licenza per continuare.",
+                    exitSetup: "Sei sicuro di voler uscire dalla configurazione?",
+                    browseFolder: 'Finestra di selezione cartella (demo)'
+                },
+                progress: {
+                    preparing: 'Preparazione in corso...',
+                    copying: 'Copia in corso: ',
+                    calculating: 'Tempo rimanente: Calcolo in corso...',
+                    timePrefix: 'Tempo rimanente: ~',
+                    timeSuffix: ' sec'
+                },
+                log: {
+                    checkDest: '[INFO] Controllo cartella di destinazione...',
+                    destReady: '[OK] Cartella di destinazione pronta: C:\\Program Files (x86)\\Beta Game',
+                    copying: '[INFO] Copia file in corso...',
+                    updatingRegistry: '[INFO] Aggiornamento registro in corso...',
+                    connInterrupted: '[WARN] Connessione interrotta',
+                    unreachable: "[ERROR] Impossibile raggiungere il server di installazione",
+                    fatalError: '[FATAL] Errore di rete 0x80072EFE'
+                },
+                logStart: '[INFO] Avvio configurazione...',
+                titles: ['Benvenuto', 'Contratto di licenza', 'Percorso di installazione', 'Installazione in corso', 'Errore di rete'],
+                welcomeTitle: 'Benvenuto',
+                welcomeText1: "Benvenuto nella configurazione guidata di Beta Game v2.4.",
+                welcomeText2: "Questo programma installer\u00e0 Beta Game sul tuo computer. Si consiglia di chiudere tutte le altre applicazioni prima di continuare.",
+                welcomeText3: "Fai clic su <strong>Avanti</strong> per continuare, o su <strong>Annulla</strong> per uscire dalla configurazione.",
+                sysReqTitle: 'Requisiti di sistema',
+                licenseTitle: 'Contratto di licenza',
+                licenseDesc: 'Leggi attentamente il seguente contratto di licenza.',
+                acceptLabel: 'Accetto il contratto di licenza',
+                locationTitle: 'Percorso di installazione',
+                locationDesc1: 'Scegli la cartella in cui verr\u00e0 installato Beta Game.',
+                locationDesc2: "L'installazione richiede almeno <strong>45 GB</strong> di spazio libero.",
+                browseBtn: 'Sfoglia...',
+                availableSpace: 'Spazio disponibile su C:',
+                installingTitle: 'Installazione in corso',
+                errorTitle: 'Errore di rete',
+                errorDesc1: "La connessione al server di installazione \u00e8 stata persa.",
+                errorDesc2: "Verifica la connessione Internet e riprova.<br>Codice errore: 0x80072EFE"
+            }
+        };
+
+        function applyLanguage() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const text = translations[currentLang][key];
+                if (text !== undefined) el.innerHTML = text;
+            });
+            document.title = translations[currentLang].title;
+        }
+
+        let currentStep = 0;
+        const totalSteps = 5;
+        let licenseAccepted = false;
+        let installInterval = null;
+
+        const stepTitles = translations[currentLang].titles;
+        const files = [
+            'engine.dll', 'renderer.dll', 'physics.dll', 'audio_engine.dll', 'network.dll',
+            'textures.pak', 'textures_high.pak', 'models.pak', 'animations.pak',
+            'sounds.pak', 'music.pak', 'voice_tr.pak', 'voice_en.pak',
+            'maps_level1.pak', 'maps_level2.pak', 'maps_level3.pak', 'maps_level4.pak',
+            'shaders.pak', 'fonts.pak', 'ui_assets.pak', 'config.ini', 'launch.exe'
+        ];
+
+        document.getElementById('accept-license').addEventListener('change', function() {
+            licenseAccepted = this.checked;
+        });
+
+        function updateDots() {
+            document.querySelectorAll('.step-dot').forEach((dot, idx) => {
+                dot.classList.remove('active', 'completed');
+                if (idx < currentStep) dot.classList.add('completed');
+                else if (idx === currentStep) dot.classList.add('active');
+            });
+        }
+
+        function showStep(step) {
+            for (let i = 0; i < totalSteps; i++) {
+                document.getElementById('step-' + i).classList.add('hidden');
+            }
+            const el = document.getElementById('step-' + step);
+            el.classList.remove('hidden');
+            el.classList.remove('fade-in');
+            void el.offsetWidth;
+            el.classList.add('fade-in');
+            updateDots();
+        }
+
+        function goNext() {
+            if (currentStep === 1 && !licenseAccepted) {
+                alert(translations[currentLang].alerts.acceptLicense);
+                return;
+            }
+            if (currentStep === 3) return;
+            if (currentStep < totalSteps - 1) {
+                currentStep++;
+                showStep(currentStep);
+                updateButtons();
+                if (currentStep === 3) startInstallation();
+            }
+        }
+
+        function goBack() {
+            if (currentStep > 0 && currentStep !== 3) {
+                currentStep--;
+                showStep(currentStep);
+                updateButtons();
+            }
+        }
+
+        function updateButtons() {
+            document.getElementById('btn-back').disabled = currentStep === 0 || currentStep === 3 || currentStep === 4;
+            const nextBtn = document.getElementById('btn-next');
+            if (currentStep === 4) {
+                nextBtn.textContent = translations[currentLang].buttons.finish;
+                nextBtn.onclick = finishSetup;
+            } else if (currentStep === 3) {
+                nextBtn.disabled = true;
+                nextBtn.textContent = translations[currentLang].buttons.installing;
+                nextBtn.onclick = null;
+            } else {
+                nextBtn.disabled = false;
+                nextBtn.textContent = translations[currentLang].buttons.next;
+                nextBtn.onclick = goNext;
+            }
+        }
+
+        function cancelSetup() {
+            if (confirm(translations[currentLang].alerts.exitSetup)) {
+                window.close();
+            }
+        }
+
+        function browseFolder() {
+            alert(translations[currentLang].alerts.browseFolder);
+        }
+
+        function addLog(msg) {
+            const log = document.getElementById('install-log');
+            const line = document.createElement('div');
+            line.className = 'log-line';
+            line.textContent = msg;
+            log.appendChild(line);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function startInstallation() {
+            let progress = 0;
+            let fileIdx = 0;
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const currentFile = document.getElementById('current-file');
+            const speedText = document.getElementById('speed-text');
+            const timeText = document.getElementById('time-text');
+
+            addLog(translations[currentLang].log.checkDest);
+
+            setTimeout(() => {
+                addLog(translations[currentLang].log.destReady);
+                addLog(translations[currentLang].log.copying);
+
+                installInterval = setInterval(() => {
+                    const increment = Math.random() * 0.4 + 0.3;
+                    progress = Math.min(progress + increment, 100);
+                    progressBar.style.width = progress + '%';
+                    progressText.textContent = Math.floor(progress) + '%';
+
+                    const speed = (Math.random() * 40 + 60).toFixed(1);
+                    speedText.textContent = speed + ' MB/s';
+
+                    const remaining = Math.max(0, Math.ceil((100 - progress) / (parseFloat(speed) / 10)));
+                    const t = translations[currentLang].progress;
+                    timeText.textContent = t.timePrefix + remaining + t.timeSuffix;
+
+                    if (Math.random() > 0.6 && fileIdx < files.length) {
+                        currentFile.textContent = translations[currentLang].progress.copying + files[fileIdx];
+                        addLog('[COPY] ' + files[fileIdx] + ' (' + (Math.random() * 500 + 50).toFixed(1) + ' MB)');
+                        fileIdx++;
+                    }
+
+                    if (progress >= 100) {
+                        clearInterval(installInterval);
+                        currentFile.textContent = translations[currentLang].progress.preparing;
+                        addLog(translations[currentLang].log.updatingRegistry);
+                        setTimeout(() => {
+                            addLog(translations[currentLang].log.connInterrupted);
+                            addLog(translations[currentLang].log.unreachable);
+                            setTimeout(() => {
+                                addLog(translations[currentLang].log.fatalError);
+                                setTimeout(() => {
+                                    currentStep = 4;
+                                    showStep(currentStep);
+                                    updateButtons();
+                                    document.getElementById('btn-cancel').textContent = translations[currentLang].buttons.close;
+                                    document.getElementById('btn-cancel').onclick = () => window.close();
+                                }, 800);
+                            }, 600);
+                        }, 600);
+                    }
+                }, 360);
+            }, 800);
+        }
+
+        function finishSetup() {
+            window.close();
+        }
+
+        applyLanguage();
+    </script>
+</body>
+</html>

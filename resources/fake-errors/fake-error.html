@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Error</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #808080;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .error-window {
+            width: 420px;
+            background: #f0f0f0;
+            border: 1px solid #a0a0a0;
+            border-radius: 4px;
+            box-shadow: 0 0 0 1px #fff inset, 0 8px 30px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+        .title-bar {
+            background: linear-gradient(180deg, #fff 0%, #e0e0e0 100%);
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            border-bottom: 1px solid #c0c0c0;
+        }
+        .title-text {
+            font-size: 12px;
+            color: #333;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .title-icon {
+            width: 16px;
+            height: 16px;
+            background: #d32f2f;
+            border-radius: 2px;
+            display: inline-block;
+        }
+        .window-btn {
+            width: 18px;
+            height: 18px;
+            border: 1px solid #999;
+            background: linear-gradient(180deg, #fff, #e0e0e0);
+            border-radius: 2px;
+            font-size: 10px;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .window-btn:hover { background: #d32f2f; color: #fff; border-color: #b71c1c; }
+        .content {
+            padding: 24px 20px 20px 20px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        .error-icon {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+        }
+        .error-icon svg { width: 100%; height: 100%; }
+        .message-area {
+            flex: 1;
+            padding-top: 2px;
+        }
+        .main-msg {
+            font-size: 13px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .sub-msg {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        .error-code {
+            font-size: 11px;
+            color: #888;
+            margin-top: 10px;
+            font-family: 'Consolas', monospace;
+            background: #e8e8e8;
+            padding: 4px 8px;
+            border-radius: 2px;
+            display: inline-block;
+        }
+        .button-row {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 20px 16px 20px;
+            gap: 8px;
+        }
+        .btn {
+            padding: 6px 22px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid;
+            border-radius: 3px;
+            min-width: 80px;
+            text-align: center;
+        }
+        .btn-ok {
+            background: linear-gradient(180deg, #fff, #e8e8e8);
+            border-color: #999;
+            color: #333;
+        }
+        .btn-ok:hover {
+            background: linear-gradient(180deg, #f8f8f8, #ddd);
+            border-color: #666;
+        }
+        .btn-ok:active { background: #d0d0d0; }
+    </style>
+</head>
+<body>
+    <div class="error-window">
+        <div class="title-bar">
+            <div class="title-text">
+                <span class="title-icon"></span>
+                <span data-i18n="errTitle">Setup Error</span>
+            </div>
+            <button class="window-btn" onclick="window.close()">&times;</button>
+        </div>
+        <div class="content">
+            <div class="error-icon">
+                <svg viewBox="0 0 48 48" fill="none">
+                    <circle cx="24" cy="24" r="20" fill="#d32f2f"/>
+                    <circle cx="24" cy="24" r="20" fill="url(#redGrad)"/>
+                    <defs>
+                        <radialGradient id="redGrad" cx="24" cy="20" r="20">
+                            <stop offset="0%" stop-color="#ef5350"/>
+                            <stop offset="100%" stop-color="#c62828"/>
+                        </radialGradient>
+                    </defs>
+                    <line x1="16" y1="16" x2="32" y2="32" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+                    <line x1="32" y1="16" x2="16" y2="32" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="message-area">
+                <div class="main-msg" data-i18n="mainMsg">
+                    <strong>Installation failed.</strong> The setup was unable to connect to the remote server.
+                </div>
+                <div class="sub-msg" data-i18n="subMsg">
+                    Please restart your computer and try again. If the problem persists, check your internet connection and verify that your operating system is up to date.
+                </div>
+                <div class="error-code" data-i18n="errCode">Error code: 0x80072F8F — ERROR_INTERNET_CANNOT_CONNECT</div>
+            </div>
+        </div>
+        <div class="button-row">
+            <button class="btn btn-ok" onclick="window.close()" data-i18n="btnOk">OK</button>
+        </div>
+    </div>
+
+    <script>
+        const currentLang = (function() {
+            const lang = navigator.language || navigator.userLanguage || 'en';
+            const map = { 'tr':'tr','de':'de','fr':'fr','es':'es','ru':'ru','zh':'zh','ja':'ja','pl':'pl','pt':'pt','it':'it' };
+            const code = lang.split('-')[0].toLowerCase();
+            return map[code] || 'en';
+        })();
+
+        const translations = {
+            en: {
+                title: 'Setup Error',
+                errTitle: 'Setup Error',
+                mainMsg: '<strong>Installation failed.</strong> The setup was unable to connect to the remote server.',
+                subMsg: 'Please restart your computer and try again. If the problem persists, check your internet connection and verify that your operating system is up to date.',
+                errCode: 'Error code: 0x80072F8F \u2014 ERROR_INTERNET_CANNOT_CONNECT',
+                btnOk: 'OK'
+            },
+            tr: {
+                title: 'Kurulum Hatas\u0131',
+                errTitle: 'Kurulum Hatas\u0131',
+                mainMsg: '<strong>Kurulum ba\u015far\u0131s\u0131z oldu.</strong> Uzaktaki sunucuya ba\u011flan\u0131lamad\u0131.',
+                subMsg: 'L\u00fctfen bilgisayar\u0131n\u0131z\u0131 yeniden ba\u015flat\u0131p tekrar deneyin. Sorun devam ederse internet ba\u011flant\u0131n\u0131z\u0131 kontrol edin ve i\u015fletim sisteminizin g\u00fcncel oldu\u011fundan emin olun.',
+                errCode: 'Hata kodu: 0x80072F8F \u2014 ERROR_INTERNET_CANNOT_CONNECT',
+                btnOk: 'Tamam'
+            },
+            de: {
+                title: 'Setup-Fehler',
+                errTitle: 'Setup-Fehler',
+                mainMsg: '<strong>Die Installation ist fehlgeschlagen.</strong> Das Setup konnte keine Verbindung zum Remoteserver herstellen.',
+                subMsg: 'Bitte starten Sie Ihren Computer neu und versuchen Sie es erneut. Wenn das Problem weiterhin besteht, \u00fcberpr\u00fcfen Sie Ihre Internetverbindung und stellen Sie sicher, dass Ihr Betriebssystem auf dem neuesten Stand ist.',
+                errCode: 'Fehlercode: 0x80072F8F \u2014 ERROR_INTERNET_CANNOT_CONNECT',
+                btnOk: 'OK'
+            },
+            fr: {
+                title: "Erreur d'installation",
+                errTitle: "Erreur d'installation",
+                mainMsg: "<strong>L'installation a \u00e9chou\u00e9.</strong> Le programme d'installation n'a pas pu se connecter au serveur distant.",
+                subMsg: "Veuillez red\u00e9marrer votre ordinateur et r\u00e9essayer. Si le probl\u00e8me persiste, v\u00e9rifiez votre connexion Internet et assurez-vous que votre syst\u00e8me d'exploitation est \u00e0 jour.",
+                errCode: "Code d'erreur: 0x80072F8F \u2014 ERROR_INTERNET_CANNOT_CONNECT",
+                btnOk: 'OK'
+            },
+            es: {
+                title: 'Error de instalaci\u00f3n',
+                errTitle: 'Error de instalaci\u00f3n',
+                mainMsg: '<strong>La instalaci\u00f3n ha fallado.</strong> No se pudo conectar al servidor remoto.',
+                subMsg: 'Reinicie su computadora e intente nuevamente. Si el problema persiste, verifique su conexi\u00f3n a Internet y aseg\u00farrese de que su sistema operativo est\u00e9 actualizado.',
+                errCode: 'C\u00f3digo de error: 0x80072F8F \u2014 ERROR_INTERNET_CANNOT_CONNECT',
+                btnOk: 'Aceptar'
+            },
+            ru: {
+                title: '\u041e\u0448\u0438\u0431\u043a\u0430 \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0438',
+                errTitle: '\u041e\u0448\u0438\u0431\u043a\u0430 \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0438',
+                mainMsg: '<strong>\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430 \u043d\u0435 \u0443\u0434\u0430\u043b\u0430\u0441\u044c.</strong> \u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0438\u0442\u044c\u0441\u044f \u043a \u0443\u0434\u0430\u043b\u0451\u043d\u043d\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0435\u0440\u0443.',
+                subMsg: '\u041f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u0435 \u043a\u043e\u043c\u043f\u044c\u044e\u0442\u0435\u0440 \u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u0438\u0442\u0435 \u043f\u043e\u043f\u044b\u0442\u043a\u0443. \u0415\u0441\u043b\u0438 \u043f\u0440\u043e\u0431\u043b\u0435\u043c\u0430 \u043d\u0435 \u0438\u0441\u0447\u0435\u0437\u043d\u0435\u0442, \u043f\u0440\u043e\u0432\u0435\u0440\u044c\u0442\u0435 \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u0435 \u043a \u0418\u043d\u0442\u0435\u0440\u043d\u0435\u0442\u0443 \u0438 \u0443\u0431\u0435\u0434\u0438\u0442\u0435\u0441\u044c, \u0447\u0442\u043e \u0432\u0430\u0448\u0430 \u043e\u043f\u0435\u0440\u0430\u0446\u0438\u043e\u043d\u043d\u0430\u044f \u0441\u0438\u0441\u0442\u0435\u043c\u0430 \u043e\u0431\u043d\u043e\u0432\u043b\u0435\u043d\u0430.',
+                errCode: '\u041a\u043e\u0434 \u043e\u0448\u0438\u0431\u043a\u0438: 0x80072F8F \u2014 ERROR_INTERNET_CANNOT_CONNECT',
+                btnOk: 'OK'
+            },
+            zh: {
+                title: '\u5b89\u88c5\u9519\u8bef',
+                errTitle: '\u5b89\u88c5\u9519\u8bef',
+                mainMsg: '<strong>\u5b89\u88c5\u5931\u8d25\u3002</strong>\u5b89\u88c5\u7a0b\u5e8f\u65e0\u6cd5\u8fde\u63a5\u5230\u8fdc\u7a0b\u670d\u52a1\u5668\u3002',
+                subMsg: '\u8bf7\u91cd\u65b0\u542f\u52a8\u8ba1\u7b97\u673a\u5e76\u91cd\u8bd5\u3002\u5982\u679c\u95ee\u9898\u4ecd\u7136\u5b58\u5728\uff0c\u8bf7\u68c0\u67e5\u60a8\u7684\u4e92\u8054\u7f51\u8fde\u63a5\uff0c\u5e76\u786e\u4fdd\u60a8\u7684\u64cd\u4f5c\u7cfb\u7edf\u662f\u6700\u65b0\u7684\u3002',
+                errCode: '\u9519\u8bef\u4ee3\u7801: 0x80072F8F \u2014 ERROR_INTERNET_CANNOT_CONNECT',
+                btnOk: '\u786e\u5b9a'
+            },
+            ja: {
+                title: '\u30bb\u30c3\u30c8\u30a2\u30c3\u30d7 \u30a8\u30e9\u30fc',
+                errTitle: '\u30bb\u30c3\u30c8\u30a2\u30c3\u30d7 \u30a8\u30e9\u30fc',
+                mainMsg: '<strong>\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u306b\u5931\u6557\u3057\u307e\u3057\u305f\u3002</strong>\u30ea\u30e2\u30fc\u30c8 \u30b5\u30fc\u30d0\u30fc\u306b\u63a5\u7d9a\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f\u3002',
+                subMsg: '\u30b3\u30f3\u30d4\u30e5\u30fc\u30bf\u30fc\u3092\u518d\u8d77\u52d5\u3057\u3066\u3001\u3082\u3046\u4e00\u5ea6\u304a\u8a66\u3057\u304f\u3060\u3055\u3044\u3002\u554f\u984c\u304c\u89e3\u6c7a\u3057\u306a\u3044\u5834\u5408\u306f\u3001\u30a4\u30f3\u30bf\u30fc\u30cd\u30c3\u30c8\u63a5\u7d9a\u3092\u78ba\u8a8d\u3057\u3001\u30aa\u30da\u30ec\u30fc\u30c6\u30a3\u30f3\u30b0 \u30b7\u30b9\u30c6\u30e0\u304c\u6700\u65b0\u3067\u3042\u308b\u3053\u3068\u3092\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002',
+                errCode: '\u30a8\u30e9\u30fc\u30b3\u30fc\u30c9: 0x80072F8F \u2014 ERROR_INTERNET_CANNOT_CONNECT',
+                btnOk: 'OK'
+            },
+            pl: {
+                title: 'B\u0142\u0105d instalacji',
+                errTitle: 'B\u0142\u0105d instalacji',
+                mainMsg: '<strong>Instalacja nie powiod\u0142a si\u0119.</strong> Nie mo\u017cna po\u0142\u0105czy\u0107 si\u0119 z serwerem zdalnym.',
+                subMsg: 'Uruchom ponownie komputer i spr\u00f3buj ponownie. Je\u015bli problem b\u0119dzie si\u0119 powtarza\u0142, sprawd\u017a po\u0142\u0105czenie internetowe i upewnij si\u0119, \u017ce system operacyjny jest zaktualizowany.',
+                errCode: 'Kod b\u0142\u0119du: 0x80072F8F \u2014 ERROR_INTERNET_CANNOT_CONNECT',
+                btnOk: 'OK'
+            },
+            pt: {
+                title: 'Erro de Instala\u00e7\u00e3o',
+                errTitle: 'Erro de Instala\u00e7\u00e3o',
+                mainMsg: '<strong>A instala\u00e7\u00e3o falhou.</strong> N\u00e3o foi poss\u00edvel conectar ao servidor remoto.',
+                subMsg: 'Reinicie o computador e tente novamente. Se o problema persistir, verifique sua conex\u00e3o com a Internet e certifique-se de que seu sistema operacional est\u00e1 atualizado.',
+                errCode: 'C\u00f3digo de erro: 0x80072F8F \u2014 ERROR_INTERNET_CANNOT_CONNECT',
+                btnOk: 'OK'
+            },
+            it: {
+                title: "Errore di Installazione",
+                errTitle: "Errore di Installazione",
+                mainMsg: "<strong>L'installazione non \u00e8 riuscita.</strong> Impossibile connettersi al server remoto.",
+                subMsg: "Riavvia il computer e riprova. Se il problema persiste, controlla la connessione Internet e assicurati che il sistema operativo sia aggiornato.",
+                errCode: "Codice errore: 0x80072F8F \u2014 ERROR_INTERNET_CANNOT_CONNECT",
+                btnOk: 'OK'
+            }
+        };
+
+        function applyLanguage() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const text = translations[currentLang][key];
+                if (text !== undefined) el.innerHTML = text;
+            });
+            document.title = translations[currentLang].title;
+        }
+
+        applyLanguage();
+    </script>
+</body>
+</html>
