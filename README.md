@@ -37,6 +37,7 @@ The site is hosted using GitHub Pages and is designed to resemble a legitimate i
 
 Visually, it is fairly convincing. It contains promotional artwork, game descriptions and a prominent download button.
 
+If the website got removed I have archived a version of it [here](https://github.com/Devs123Easy/Inner-Evil-Investigation/tree/main/Inner%20Evil%20Webste%20Archived%2025.07.2026/playevilinnerbeta.github.io)
 The actual ZIP file is hosted on Dropbox: [Dropbox link](https://www.dropbox.com/scl/fi/3x8ynjm9fmnph6f2pj7lb/InnerEvil.zip?rlkey=qh0nij8p9i0usk9iiw4lkdg34&st=qoyzfoip&dl=1)
 
 If that file is removed, I have retained an archived copy for research purposes. I am intentionally not placing the live malware binary directly in the public GitHub repository.
