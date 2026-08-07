@@ -1,22 +1,22 @@
 # Inner Evil - Investigation of a Fake Game, Infostealer and RAT Campaign
-A few days ago I was browsing the **Hack Smarter** Discord server looking for free cybersecurity courses when I noticed someone asking for help removing malware from their computer.
-<img src="https://raw.githubusercontent.com/Devs123Easy/Inner-Evil-Investigation/refs/heads/main/resources/Kodo's_messages_in_the_Hack_Smarter_discord.png" alt="Kodo's messages in the Hack Smarter discord server" width="192" height="378" align="center">
+A few days ago I was browsing the **Hack Smarter** Discord server looking for free cybersecurity courses when I noticed someone asking for help removing malware from their computer.\
+<img src="https://raw.githubusercontent.com/Devs123Easy/Inner-Evil-Investigation/refs/heads/main/resources/Kodo's_messages_in_the_Hack_Smarter_discord.png" alt="Kodo's messages in the Hack Smarter discord server" width="192" height="378" align="center">\
 
 That person also happens to be a viewer of **No Text To Speech** and is present in the NTTS Discord community.
 
 I contacted him because I have experience with cybersecurity and malware analysis and offered to help. For privacy reasons, I will refer to him as Kodo throughout this report.\
-<img src="https://raw.githubusercontent.com/Devs123Easy/Inner-Evil-Investigation/refs/heads/main/resources/Reaching_out_to_kodo.png" alt="Kodo's messages in the Hack Smarter discord server" width="435" height="253" align="center">
+<img src="https://raw.githubusercontent.com/Devs123Easy/Inner-Evil-Investigation/refs/heads/main/resources/Reaching_out_to_kodo.png" alt="Kodo's messages in the Hack Smarter discord server" width="435" height="253" align="center">\
 ## How the infection started
-Kodo explained that one day a friend contacted him on Discord and told him about a new game that he had supposedly developed together with some friends.
+Kodo explained that one day a friend contacted him on Discord and told him about a new game that he had supposedly developed together with some friends.\
 <img src="https://raw.githubusercontent.com/Devs123Easy/Inner-Evil-Investigation/refs/heads/main/resources/Pls_download-1.png" alt="The hacked friend saying that they made a game" width="519" height="132" align="center">\
 The friend asked Kodo whether he wanted to test the game.
 
 Kodo agreed. After all, the message came from someone he trusted.
 
-The "friend" then sent him a [Youtube video](https://www.youtube.com/watch?v=69-XiNqIch4) showcasing the supposed game. The video's description linked to what was presented as the game's [official website](https://playevilinnerbeta.github.io/)
+The "friend" then sent him a [Youtube video](https://www.youtube.com/watch?v=69-XiNqIch4) showcasing the supposed game. The video's description linked to what was presented as the game's [official website](https://playevilinnerbeta.github.io/)\
 <img src="https://raw.githubusercontent.com/Devs123Easy/Inner-Evil-Investigation/refs/heads/main/resources/Pls_download-2.png" alt="The hacked friend saying that they made a game" width="411" height="362" align="center">\
 If the original YouTube video is removed, I archived a copy here:
-[Archived Inner Evil trailer](https://github.com/Devs123Easy/Inner-Evil-Investigation/blob/main/resources/Inner-Evil-Game-Trailer_Youtube.mp4)
+[Archived Inner Evil trailer](https://github.com/Devs123Easy/Inner-Evil-Investigation/blob/main/resources/Inner-Evil-Game-Trailer_Youtube.mp4)\
 <img src="https://raw.githubusercontent.com/Devs123Easy/Inner-Evil-Investigation/refs/heads/main/resources/Pls_download-3.png" alt="The hacked friend saying that they made a game" width="353" height="234" align="center">\
 ## Suspicious YouTube comments
 One thing immediately stood out.
